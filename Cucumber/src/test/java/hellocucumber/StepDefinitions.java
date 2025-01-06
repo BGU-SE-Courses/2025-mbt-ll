@@ -6,19 +6,31 @@ import org.junit.jupiter.api.Assertions.*;
 
 public class StepDefinitions {
 
-    // $$*TODO* explain what this step does$$
-    @Given("an example scenario")
-    public void anExampleScenario() {
+    // The function creates forum
+    @Given("There is a forum")
+    public void createForum() {
+
     }
 
-    // $$*TODO* explain what this step does$$
-    @When("all step definitions are implemented")
-    public void allStepDefinitionsAreImplemented() {
+    // The function creates comment
+    @When("Student comment on forum")
+    public void commentingOnForum() {
     }
 
-    // $$*TODO* explain what this step does$$
-    @Then("the scenario passes")
-    public void theScenarioPasses() {
+    // The function checks existence of comment
+    @Then("The comment should be shown")
+    public void commentIsShownOnForum() {
+    }
+
+
+    //The function hides forum
+    @When("Teacher hides forum")
+    public void hideForum() {
+    }
+
+    //The function checks if forum is hidden
+    @Then("The forum is hidden")
+    public void hiddenForum() {
     }
 
 }
