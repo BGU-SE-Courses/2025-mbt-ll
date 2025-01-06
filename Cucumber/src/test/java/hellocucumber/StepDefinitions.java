@@ -1,15 +1,21 @@
 package hellocucumber;
-
 import io.cucumber.java.en.*;
-
-import org.junit.jupiter.api.Assertions.*;
 
 public class StepDefinitions {
 
     // The function creates forum
     @Given("There is a forum")
     public void createForum() {
+    }
 
+    // The function creates topic
+    @And("There is a topic")
+    public void createTopic() {
+    }
+
+    // The function go to forum page
+    @And("Student is on forum page")
+    public void studentInOnForumPage() {
     }
 
     // The function creates comment
@@ -22,6 +28,11 @@ public class StepDefinitions {
     public void commentIsShownOnForum() {
     }
 
+
+    // The function go to forum page
+    @And("Teacher is on forum page")
+    public void teacherInOnForumPage() {
+    }
 
     //The function hides forum
     @When("Teacher hides forum")
