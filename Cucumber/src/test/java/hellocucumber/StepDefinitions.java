@@ -1,7 +1,22 @@
 package hellocucumber;
 import io.cucumber.java.en.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class StepDefinitions {
+    private String webDriver = "webdriver.chrome.driver";
+    private String path = "...\\Selenium\\chromedriver.exe";
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    public void LoginInitUser(){
+        System.setProperty(webDriver, path);
+        this.driver = new ChromeDriver();
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
     // The function creates forum
     @Given("There is a forum")
