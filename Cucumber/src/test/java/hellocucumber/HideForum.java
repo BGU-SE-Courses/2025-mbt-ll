@@ -3,8 +3,10 @@ package hellocucumber;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -67,9 +69,10 @@ public class HideForum {
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a")).click();
         driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_31\"]")).click();
         driver.findElement(By.xpath("//*[@id=\"form_autocomplete_input-1736448939818\"]")).click();
-        driver.findElement(By.xpath("teacher")).click();
-        driver.findElement(By.xpath("choose role")).click();
-        driver.findElement(By.xpath("teacher")).click();
+        driver.findElement(By.xpath("/html/body/div[5]/div[2]/div/div/div[2]/form/fieldset/div[2]/div[1]/div[2]/ul/li[4]")).click();
+        WebElement roleDropdown = driver.findElement(By.id("id_roletoassign"));
+        Select selectRole = new Select(roleDropdown);
+        selectRole.selectByVisibleText("Teacher");
         driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_665\"]")).click();
         driver.findElement(By.xpath("//*[@id=\"id_startdate\"]")).click();
         driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_691\"]")).click();
@@ -107,7 +110,16 @@ public class HideForum {
         }
     }
 
-    // hide forum
+    public void hideForum(){
+        driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a\n" +
+                "                /html/body/div[3]/div[4]/div/div[2]/nav/ul/li[2]/a")).click();
+        driver.findElement(By.xpath("//*[@id=\"collapseElement-8\"]")).click();
+        driver.findElement(By.xpath("//*[@id=\"id_visible\"]")).click();
+        WebElement roleDropdown = driver.findElement(By.id("id_visible"));
+        Select selectRole = new Select(roleDropdown);
+        selectRole.selectByVisibleText("Hide on course page");
+        driver.findElement(By.xpath("//*[@id=\"id_submitbutton\"]")).click();
+    }
 
     public void loginStudent() {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[2]/div[5]/div/span/a")).click();
@@ -120,4 +132,6 @@ public class HideForum {
             e.printStackTrace();
         }
     }
+
+
 }
