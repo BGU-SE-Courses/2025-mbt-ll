@@ -3,11 +3,13 @@ package hellocucumber;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class CreateTopic {
     private static WebDriver driver;
@@ -114,5 +116,21 @@ public class CreateTopic {
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div/div[2]/div[2]/div/a[2]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[1]/span/textarea"))).sendKeys("reply");
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[2]/button[1]/span[1]")).click();
+    }
+
+    public boolean checkCommentExists() {
+        try {
+            WebElement commentsSection = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("forum-comments-id"))); // Replace 'forum-comments-id' with the actual ID or locator for the comments section.
+            List<WebElement> comments = commentsSection.findElements(By.tagName("p"));
+            for (WebElement comment : comments) {
+                if (comment.getText().equals("reply")) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

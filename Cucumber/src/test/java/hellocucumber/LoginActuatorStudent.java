@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class loginActuatorStudent {
+public class LoginActuatorStudent {
     private static WebDriver driver;
     private static WebDriverWait wait;
 
