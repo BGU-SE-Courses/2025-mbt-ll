@@ -12,16 +12,13 @@ import java.time.Duration;
 import java.util.List;
 
 public class CreateTopic {
-    private static WebDriver driver;
-    private static WebDriverWait wait;
+    private static WebDriver driver= new ChromeDriver();
+    private static WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     public void initSessionAsUser(String webDriver, String path) {
         System.setProperty(webDriver, path);
-        this.driver = new ChromeDriver();
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("https://sandbox.moodledemo.net/");
         driver.manage().window().setPosition(new Point(700, 5));
-        System.out.println("Driver setup finished for - " + driver.getTitle());
     }
 
     public void loginAdmin() {
@@ -50,7 +47,8 @@ public class CreateTopic {
     }
 
     public void goToCourse() {
-        driver.findElement(By.xpath("/html/body/div[2]/div[3]/div/div[2]/div/section/div/div[2]/div/div[2]/div[1]/h3/a")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div[3]/div/div[2]/div/section/div/div[2]/div/div[1]/div[1]/h3/a")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[3]/div/div[2]/div/section/div/div[2]/div/div[1]/div[1]/h3/a"))).click();
     }
 
     public void enrollUser() {
