@@ -12,8 +12,8 @@ import java.time.Duration;
 import java.util.List;
 
 public class CreateTopic {
-    private static WebDriver driver= new ChromeDriver();
-    private static WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    private static final WebDriver driver= new ChromeDriver();
+    private static final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     public void initSessionAsUser(String webDriver, String path) {
         System.setProperty(webDriver, path);
@@ -24,6 +24,11 @@ public class CreateTopic {
     public void loginAdmin() {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[2]/div[5]/div/span/a")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).sendKeys("admin");
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"password\"]"))).sendKeys("sandbox24");
         driver.findElement(By.xpath("//*[@id=\"loginbtn\"]")).click();
         try {
@@ -33,9 +38,10 @@ public class CreateTopic {
         }
     }
 
+    //TODO (maybe css selector) find other identifier than text? + update shortname value each run
     public void createCourse() {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[1]/nav/ul/li[3]/a")).click();
-        driver.findElement(By.xpath("//*[@id=\"single_button678019218d9592\"]")).click();
+        driver.findElement(By.xpath("//button[text()='Create course']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_fullname\"]"))).sendKeys("test_course");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_shortname\"]"))).sendKeys("test");
         driver.findElement(By.xpath("//*[@id=\"id_saveanddisplay\"]")).click();
@@ -51,9 +57,10 @@ public class CreateTopic {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[3]/div/div[2]/div/section/div/div[2]/div/div[1]/div[1]/h3/a"))).click();
     }
 
+    //TODO other identifier than text?
     public void enrollUser() {
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a")).click();
-        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_31\"]")).click();
+        driver.findElement(By.xpath("//input[@data-initial-value='Enrol users']")).click();
         driver.findElement(By.xpath("//*[@id=\"form_autocomplete_input-1736448939818\"]")).click();
         driver.findElement(By.xpath("/html/body/div[6]/div[2]/div/div/div[2]/form/fieldset/div[2]/div[1]/div[2]/ul/li[3]/span")).click();
         driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_665\"]")).click();

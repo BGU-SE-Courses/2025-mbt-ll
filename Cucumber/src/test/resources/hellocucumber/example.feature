@@ -1,7 +1,8 @@
 Feature: A set of scenarios for testing the "example" module
 
   Scenario: Students comments on the forum
-    Given There is a forum
+    Given There is a course
+    And There is a forum
     And There is a topic
     And Student is on forum page
     When Student comment on forum
