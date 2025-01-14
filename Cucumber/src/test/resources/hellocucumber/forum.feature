@@ -1,4 +1,4 @@
-Feature: A set of scenarios for testing the "example" module
+Feature: A set of scenarios for testing the forum module
 
   Scenario: Students comments on the forum
     Given There is a course

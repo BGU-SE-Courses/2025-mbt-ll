@@ -4,7 +4,7 @@ import io.cucumber.java.en.*;
 public class StepDefinitions {
     private String webDriver = "webdriver.chrome.driver";
     private String path = "...\\Selenium\\chromedriver.exe";
-    private MoodleFunctions createTopic = new MoodleFunctions();
+    private MoodleActuator createTopic = new MoodleActuator();
 
     //Use Case : Create Topic
 

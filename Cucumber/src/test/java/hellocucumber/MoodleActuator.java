@@ -10,7 +10,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MoodleFunctions {
+public class MoodleActuator {
     private static final WebDriver driver = new ChromeDriver();
     private static final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
