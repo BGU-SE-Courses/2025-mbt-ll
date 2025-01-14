@@ -97,6 +97,7 @@ public class StepDefinitions {
     @Then("The comment should be shown")
     public void commentIsShownOnForum() {
         moodleActuator.checkCommentExists();
+        moodleActuator.logout();
     }
 
     // =============================
