@@ -21,9 +21,9 @@ public class MoodleActuator {
     }
 
     // Logs in as the admin user.
-    public void loginAdmin() {
+    public void login(String userName,String password) {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[2]/div[5]/div/span/a")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).sendKeys("admin");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).sendKeys(userName);
         try {
             Thread.sleep(750);
         } catch (InterruptedException e) {
@@ -39,11 +39,11 @@ public class MoodleActuator {
     }
 
     // Creates a course with the full name "test_course" and the short name "test".
-    public void createCourse() {
+    public void createCourse(String shortName) {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[1]/nav/ul/li[3]/a")).click();
         driver.findElement(By.cssSelector("button.btn.btn-primary[type='submit']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_fullname\"]"))).sendKeys("test_course");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_shortname\"]"))).sendKeys("test");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_shortname\"]"))).sendKeys(shortName);
         driver.findElement(By.xpath("//*[@id=\"id_saveanddisplay\"]")).click();
         try {
             Thread.sleep(500);
@@ -59,7 +59,7 @@ public class MoodleActuator {
     }
 
     // Enrolls the user "Sam Student" in the course "test" with student permissions.
-    public void enrollUser() {
+    public void enrollStudent() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a"))).click();
         driver.findElement(By.xpath("//input[@type='submit' and @class='btn btn-primary']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@role='combobox' and @data-fieldtype='autocomplete']"))).sendKeys("Sam Student");
@@ -74,11 +74,11 @@ public class MoodleActuator {
     }
 
     // Creates a forum with the name "test".
-    public void createForum() {
+    public void createForum(String forumName) {
         driver.findElement(By.xpath("//input[@type='checkbox' and @name='setmode']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[4]/div[5]/div/div[3]/div/section/div/div/div/ul/li[1]/div[1]/div[2]/div[2]/div/button/div/span"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Add a new Forum']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_name\"]"))).sendKeys("test");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_name\"]"))).sendKeys(forumName);
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -108,21 +108,6 @@ public class MoodleActuator {
     public void logout() {
         driver.findElement(By.xpath("//*[@id=\"user-menu-toggle\"]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"carousel-item-main\"]/a[10]"))).click();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Logs in as a student user.
-    public void loginStudent() {
-        driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[2]/div[5]/div/span/a")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).clear();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).sendKeys("student");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"password\"]"))).clear();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"password\"]"))).sendKeys("sandbox24");
-        driver.findElement(By.xpath("//*[@id=\"loginbtn\"]")).click();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
