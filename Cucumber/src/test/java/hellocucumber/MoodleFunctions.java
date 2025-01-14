@@ -40,7 +40,7 @@ public class MoodleFunctions {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[1]/nav/ul/li[3]/a")).click();
         driver.findElement(By.cssSelector("button.btn.btn-primary[type='submit']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_fullname\"]"))).sendKeys("test_course");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_shortname\"]"))).sendKeys("test6");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_shortname\"]"))).sendKeys("test3");
         driver.findElement(By.xpath("//*[@id=\"id_saveanddisplay\"]")).click();
         try {
             Thread.sleep(500);
@@ -109,7 +109,8 @@ public class MoodleFunctions {
 
     public void logout() {
         driver.findElement(By.xpath("//*[@id=\"user-menu-toggle\"]")).click();
-        driver.findElement(By.xpath("/html/body/div[4]/nav/div/div[2]/div[5]/div/div/div/div/div/div[1]/a[10]")).click();
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[4]/nav/div/div[2]/div[5]/div/div/div/div/div/div[1]/a[10]"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"carousel-item-main\"]/a[10]"))).click();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -152,7 +153,9 @@ public class MoodleFunctions {
 
     public void loginTeacher() {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[2]/div[5]/div/span/a")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).clear();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).sendKeys("teacher");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"password\"]"))).clear();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"password\"]"))).sendKeys("sandbox24");
         driver.findElement(By.xpath("//*[@id=\"loginbtn\"]")).click();
         try {
@@ -163,34 +166,34 @@ public class MoodleFunctions {
     }
 
     public void enrollTeacher() {
-        driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a")).click();
-        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_31\"]")).click();
-        driver.findElement(By.xpath("//*[@id=\"form_autocomplete_input-1736448939818\"]")).click();
-        driver.findElement(By.xpath("/html/body/div[5]/div[2]/div/div/div[2]/form/fieldset/div[2]/div[1]/div[2]/ul/li[4]")).click();
-        WebElement roleDropdown = driver.findElement(By.id("id_roletoassign"));
-        Select selectRole = new Select(roleDropdown);
-        selectRole.selectByVisibleText("Teacher");
-        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_665\"]")).click();
-        driver.findElement(By.xpath("//*[@id=\"id_startdate\"]")).click();
-        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_691\"]")).click();
-        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_877\"]")).click();
-        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736449386912_402\"]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a"))).click();
+        driver.findElement(By.xpath("//input[@type='submit' and @class='btn btn-primary']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@role='combobox' and @data-fieldtype='autocomplete']"))).sendKeys("Terri Teacher");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.findElement(By.xpath("//input[@role='combobox' and @data-fieldtype='autocomplete']")).sendKeys(Keys.ENTER);
+        new Select(driver.findElement(By.xpath("//*[@id=\"id_roletoassign\"]"))).selectByValue("3");
+        driver.findElement(By.xpath("//button[@type='button' and @class='btn btn-primary' and @data-action='save']")).click();
+        driver.findElement(By.xpath("//li[@data-key='coursehome']//a")).click();
     }
 
     public void hideForum(){
-        driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a\n" +
-                "                /html/body/div[3]/div[4]/div/div[2]/nav/ul/li[2]/a")).click();
+        driver.findElement(By.xpath("//li[@data-key='modedit']//a")).click();
         driver.findElement(By.xpath("//*[@id=\"collapseElement-8\"]")).click();
         driver.findElement(By.xpath("//*[@id=\"id_visible\"]")).click();
         WebElement roleDropdown = driver.findElement(By.id("id_visible"));
         Select selectRole = new Select(roleDropdown);
         selectRole.selectByVisibleText("Hide on course page");
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.id("id_submitbutton")));
         driver.findElement(By.xpath("//*[@id=\"id_submitbutton\"]")).click();
     }
 
-    //TODO implement the function
     public void checkForumHiding() {
-        return;
+        boolean hiding = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"section-0\"]"))) != null;
+        assertTrue(hiding);
     }
 
 }

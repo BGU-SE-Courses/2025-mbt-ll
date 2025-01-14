@@ -59,6 +59,11 @@ public class StepDefinitions {
     //Use Case : Hide Forum
 
     // The function go to forum page
+    @And("Teacher is enrolled")
+    public void teacherIsEnrolled() {
+        createTopic.enrollTeacher();
+    }
+
     @And("Teacher is on forum page")
     public void teacherInOnForumPage() {
         createTopic.logout();
@@ -69,6 +74,7 @@ public class StepDefinitions {
     //The function hides forum
     @When("Teacher hides forum")
     public void hideForum() {
+        createTopic.goToForum();
         createTopic.hideForum();
         createTopic.logout();
     }
