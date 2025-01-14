@@ -37,6 +37,7 @@ public class CreateTopicStepDefinitions {
     @And("Student is on forum page")
     public void studentInOnForumPage() {
          createTopic.loginStudent();
+         createTopic.goToCourse();
          createTopic.goToForum();
     }
 
