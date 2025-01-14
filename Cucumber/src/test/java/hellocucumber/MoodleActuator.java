@@ -14,7 +14,7 @@ public class MoodleActuator {
     private static final WebDriver driver = new ChromeDriver();
     private static final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    public void initSessionAsUser(String webDriver, String path) {
+    public void initSession(String webDriver, String path) {
         System.setProperty(webDriver, path);
         driver.get("https://sandbox.moodledemo.net/");
     }
@@ -40,7 +40,7 @@ public class MoodleActuator {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[1]/nav/ul/li[3]/a")).click();
         driver.findElement(By.cssSelector("button.btn.btn-primary[type='submit']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_fullname\"]"))).sendKeys("test_course");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_shortname\"]"))).sendKeys("test3");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_shortname\"]"))).sendKeys("test");
         driver.findElement(By.xpath("//*[@id=\"id_saveanddisplay\"]")).click();
         try {
             Thread.sleep(500);
