@@ -108,7 +108,7 @@ public class CreateTopic {
         driver.findElement(By.xpath("/html/body/div[5]/div[5]/div/header/div/div[1]/div[1]/nav/ol/li[2]/a")).click();
     }
 
-    public void logoutAdmin() {
+    public void logout() {
         driver.findElement(By.xpath("//*[@id=\"user-menu-toggle\"]")).click();
         driver.findElement(By.xpath("/html/body/div[4]/nav/div/div[2]/div[5]/div/div/div/div/div/div[1]/a[10]")).click();
         try {
@@ -150,4 +150,48 @@ public class CreateTopic {
         boolean replyExists = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'reply')]"))) != null;
         assertTrue(replyExists);
     }
+
+    public void loginTeacher() {
+        driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[2]/div[5]/div/span/a")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).sendKeys("teacher");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"password\"]"))).sendKeys("sandbox24");
+        driver.findElement(By.xpath("//*[@id=\"loginbtn\"]")).click();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void enrollTeacher() {
+        driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a")).click();
+        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_31\"]")).click();
+        driver.findElement(By.xpath("//*[@id=\"form_autocomplete_input-1736448939818\"]")).click();
+        driver.findElement(By.xpath("/html/body/div[5]/div[2]/div/div/div[2]/form/fieldset/div[2]/div[1]/div[2]/ul/li[4]")).click();
+        WebElement roleDropdown = driver.findElement(By.id("id_roletoassign"));
+        Select selectRole = new Select(roleDropdown);
+        selectRole.selectByVisibleText("Teacher");
+        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_665\"]")).click();
+        driver.findElement(By.xpath("//*[@id=\"id_startdate\"]")).click();
+        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_691\"]")).click();
+        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736448939619_877\"]")).click();
+        driver.findElement(By.xpath("//*[@id=\"yui_3_18_1_1_1736449386912_402\"]")).click();
+    }
+
+    public void hideForum(){
+        driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a\n" +
+                "                /html/body/div[3]/div[4]/div/div[2]/nav/ul/li[2]/a")).click();
+        driver.findElement(By.xpath("//*[@id=\"collapseElement-8\"]")).click();
+        driver.findElement(By.xpath("//*[@id=\"id_visible\"]")).click();
+        WebElement roleDropdown = driver.findElement(By.id("id_visible"));
+        Select selectRole = new Select(roleDropdown);
+        selectRole.selectByVisibleText("Hide on course page");
+        driver.findElement(By.xpath("//*[@id=\"id_submitbutton\"]")).click();
+    }
+
+    //TODO implement the function
+    public void checkForumHiding() {
+        return;
+    }
+
 }

@@ -6,6 +6,8 @@ public class CreateTopicStepDefinitions {
     private String path = "...\\Selenium\\chromedriver.exe";
     private CreateTopic createTopic = new CreateTopic();
 
+    //Use Case : Create Topic
+
     public void createTopicInitUser(){
         createTopic.initSessionAsUser(webDriver,path);
     }
@@ -30,7 +32,7 @@ public class CreateTopicStepDefinitions {
     @And("There is a topic")
     public void createTopic() {
          createTopic.createTopic();
-         createTopic.logoutAdmin();
+         createTopic.logout();
     }
 
     // The function go to forum page
@@ -52,6 +54,31 @@ public class CreateTopicStepDefinitions {
     @Then("The comment should be shown")
     public void commentIsShownOnForum() {
          createTopic.checkCommentExists();
+    }
+
+    //Use Case : Hide Forum
+
+    // The function go to forum page
+    @And("Teacher is on forum page")
+    public void teacherInOnForumPage() {
+        createTopic.logout();
+        createTopic.loginTeacher();
+        createTopic.goToCourse();
+    }
+
+    //The function hides forum
+    @When("Teacher hides forum")
+    public void hideForum() {
+        createTopic.hideForum();
+        createTopic.logout();
+    }
+
+    //The function checks if forum is hidden
+    @Then("The forum is hidden")
+    public void hiddenForum() {
+        createTopic.loginStudent();
+        createTopic.goToCourse();
+        createTopic.checkForumHiding();
     }
 
 }
