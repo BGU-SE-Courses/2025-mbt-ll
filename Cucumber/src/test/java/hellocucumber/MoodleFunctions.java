@@ -7,11 +7,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CreateTopic {
+public class MoodleFunctions {
     private static final WebDriver driver = new ChromeDriver();
     private static final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 

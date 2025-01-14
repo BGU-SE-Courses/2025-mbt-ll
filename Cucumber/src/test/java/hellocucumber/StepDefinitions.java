@@ -1,10 +1,10 @@
 package hellocucumber;
 import io.cucumber.java.en.*;
 
-public class CreateTopicStepDefinitions {
+public class StepDefinitions {
     private String webDriver = "webdriver.chrome.driver";
     private String path = "...\\Selenium\\chromedriver.exe";
-    private CreateTopic createTopic = new CreateTopic();
+    private MoodleFunctions createTopic = new MoodleFunctions();
 
     //Use Case : Create Topic
 
