@@ -113,7 +113,6 @@ public class StepDefinitions {
      */
     @Given("There is a course for hiding forum scenario")
     public void createCourseForHiding() {
-        initSession();
         moodleActuator.login("admin","sandbox24");
         moodleActuator.createCourse("test2");
     }
