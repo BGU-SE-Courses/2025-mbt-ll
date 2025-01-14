@@ -21,36 +21,36 @@ public class CreateTopicStepDefinitions {
     // The function creates forum
     @And("There is a forum")
     public void createForum() {
-        // createTopic.goToCourse();
-        // createTopic.enrollUser();
-        // createTopic.createForum();
+         //createTopic.goToCourse();
+         createTopic.enrollUser();
+         createTopic.createForum();
     }
 
     // The function creates topic
     @And("There is a topic")
     public void createTopic() {
-        // createTopic.createTopic();
-        // createTopic.logoutAdmin();
+         createTopic.createTopic();
+         createTopic.logoutAdmin();
     }
 
     // The function go to forum page
     @And("Student is on forum page")
     public void studentInOnForumPage() {
-        // createTopic.loginStudent();
-        // createTopic.goToForum();
+         createTopic.loginStudent();
+         createTopic.goToForum();
     }
 
     // The function creates comment
     @When("Student comment on forum")
     public void commentingOnForum() {
-        // createTopic.goToTopic();
-        // createTopic.commentForum();
+         createTopic.goToTopic();
+         createTopic.commentForum();
     }
 
     // The function checks existence of comment
     @Then("The comment should be shown")
     public void commentIsShownOnForum() {
-        // createTopic.checkCommentExists();
+         createTopic.checkCommentExists();
     }
 
 }
