@@ -117,6 +117,17 @@ public class MoodleActuator {
         }
     }
 
+    // Logs out the student after replying the comment
+    public void logoutAfterReplying() {
+        driver.findElement(By.xpath("//*[@id=\"user-menu-toggle\"]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"carousel-item-main\"]/a[9]"))).click();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Navigates to the forum "test" from the course "test".
     public void goToForum() {
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a")).click();

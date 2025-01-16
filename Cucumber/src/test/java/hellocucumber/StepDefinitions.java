@@ -32,7 +32,7 @@ public class StepDefinitions {
     public void createCourseForCommenting() {
         initSession();
         moodleActuator.login("admin","sandbox24");
-        moodleActuator.createCourse("test1");
+        moodleActuator.createCourse("test5");
     }
 
     /**
@@ -97,7 +97,7 @@ public class StepDefinitions {
     @Then("The comment should be shown")
     public void commentIsShownOnForum() {
         moodleActuator.checkCommentExists();
-        moodleActuator.logout();
+        moodleActuator.logoutAfterReplying();
     }
 
     // =============================
