@@ -1,21 +1,17 @@
 /* @provengo summon selenium */
 
 /**
- * This story opens a new browser window, goes to google.com, and searches for "Pizza".
+ * This story creates a new reply comment by student on existing topic in course's forum.
  */
-bthread('Search', function () {
-  let s = new SeleniumSession('search')
+bthread('Reply', function () {
+  let s = new SeleniumSession('reply')
   s.start(URL)
-  composeQuery(s, { text: 'Pizza' })
-  startSearch(s)
 })
 
 /**
- * This story opens a new browser window, goes to google.com, and searches for "Pasta" using the "I Feel Lucky" feature.
+ * This story hide a forum from student by teacher.
  */
-bthread('Feeling lucky', function () {
-  let s = new SeleniumSession('lucky')
+bthread('Hide', function () {
+  let s = new SeleniumSession('hide')
   s.start(URL)
-  composeQuery(s, { text: 'Pasta' })
-  feelLucky(s)
 })

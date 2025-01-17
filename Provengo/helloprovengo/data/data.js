@@ -2,7 +2,7 @@
  *  This is a good place to put common test data, project-wide constants, etc.
  */
 
-const URL = 'https://www.google.com/?hl=en';
+const URL = "https://sandbox.moodledemo.net/";
 
 const xpaths = {
   searchWindow: {
