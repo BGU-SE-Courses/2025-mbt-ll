@@ -1,90 +1,76 @@
 /* @provengo summon selenium */
 
-// Define a function to create events
-function createEvent(name, session) {
-  return {
-    name: name,
-    type: "event",
-    session: session,
-    toString: function () {
-      return `Event: ${this.name}`;
-    }
-  };
-}
-
-/**
- * Behavior: Student Replies to a Forum Topic
- */
-bthread("Student Reply to Forum", function () {
-  let session = new SeleniumSession("reply");
-  session.start(URL, "chrome");
+bthread('Reply', function () {
+  let session = new SeleniumSession('reply');
+  session.start(URL, 'chrome'); // Ensure browser type is explicitly passed
 
   // Log in as a student
-  sync({ request: createEvent("loginStudent", session) });
   loginStudent(session, moodledata);
 
-  // Navigate to course
-  sync({ request: createEvent("navigateToCourse", session) });
+  // Wait for and navigate to the course
+  bp.sync({ request: bp.Event("navigateToCourse") });
   navigateToCourseFromHomePage(session);
 
-  // Navigate to forum
-  sync({ request: createEvent("navigateToForum", session) });
+  // Wait for and navigate to the forum
+  bp.sync({ request: bp.Event("navigateToForum") });
   navigateToForum(session);
 
-  // Navigate to topic
-  sync({ request: createEvent("navigateToTopic", session) });
+  // Wait for and navigate to the topic
+  bp.sync({ request: bp.Event("navigateToTopic") });
   navigateToTopic(session);
 
-  // Add a comment to the forum
-  sync({ request: createEvent("commentOnForum", session) });
+  // Block hiding the forum during this interaction
+  bp.sync({ block: bp.Event("hideForum") });
+
+  // Wait for and add a comment to the forum
+  bp.sync({ request: bp.Event("commentOnForum") });
   commentOnForum(session, moodledata);
 
-  // Validate that the comment exists
+  // Check if the comment exists
   if (checkCommentExist(session)) {
-    console.log("Comment successfully added.");
+    console.log('Comment successfully added.');
   } else {
-    console.error("Comment could not be added.");
+    console.error('Comment could not be added.');
   }
 
-  // Log out
-  sync({ request: createEvent("logout", session) });
+  // Wait for and log out
+  bp.sync({ request: bp.Event("logout") });
   logout(session);
 
   session.stop();
 });
 
-/**
- * Behavior: Teacher Hides Forum from Students
- */
-bthread("Teacher Hides Forum", function () {
-  let session = new SeleniumSession("hide");
-  session.start(URL, "chrome");
+bthread('Hide', function () {
+  let session = new SeleniumSession('hide');
+  session.start(URL, 'chrome'); // Ensure browser type is explicitly passed
 
   // Log in as a teacher
-  sync({ request: createEvent("loginTeacher", session) });
   loginTeacher(session, moodledata);
 
-  // Navigate to course
-  sync({ request: createEvent("navigateToCourse", session) });
+  // Wait for and navigate to the course
+  bp.sync({ request: bp.Event("navigateToCourse") });
   navigateToCourseFromHomePage(session);
 
-  // Navigate to forum
-  sync({ request: createEvent("navigateToForum", session) });
+  // Wait for and navigate to the forum
+  bp.sync({ request: bp.Event("navigateToForum") });
   navigateToForum(session);
 
-  // Hide the forum
-  sync({ request: createEvent("hideForum", session) });
+  // Block commenting on the forum during this interaction
+  bp.sync({ block: bp.Event("commentOnForum") });
+
+  // Wait for and hide the forum
+  bp.sync({ request: bp.Event("hideForum") });
   hideForum(session);
 
-  // Validate that the forum is hidden
+  // Check if the forum is successfully hidden
   if (checkForumHiding(session)) {
-    console.log("Forum successfully hidden.");
+    console.log('Forum successfully hidden.');
   } else {
-    console.error("Forum could not be hidden.");
+    console.error('Forum could not be hidden.');
   }
 
-  // Log out
-  sync({ request: createEvent("logout", session) });
+  // Wait for and log out
+  bp.sync({ request: bp.Event("logout") });
   logout(session);
 
   session.stop();
