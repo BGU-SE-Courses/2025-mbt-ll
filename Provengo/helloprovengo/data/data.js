@@ -89,11 +89,9 @@ const xpaths = {
 const moodledata = {
   Login: {
     adminUsername: "admin",
-    adminPassword: "sandbox24",
     teacherUsername: "teacher",
-    teacherPassword: "sandbox24",
     studentUsername: "student",
-    studentPassword: "sandbox24"
+    password: "sandbox24"
   },
   Course: {
     fullName: "test_course",
