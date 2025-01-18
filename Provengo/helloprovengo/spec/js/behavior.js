@@ -2,7 +2,7 @@
 
 bthread('Reply', function () {
   let session = new SeleniumSession('reply');
-  session.start(URL, 'chrome'); // Ensure browser type is explicitly passed
+  session.start(URL, 'chrome');
 
   // Log in as a student
   loginStudent(session, moodledata);
