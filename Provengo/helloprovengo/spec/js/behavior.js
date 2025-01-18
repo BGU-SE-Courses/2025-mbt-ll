@@ -6,38 +6,23 @@
 bthread('Reply', function () {
   let session = new SeleniumSession('reply');
   session.start(URL);
-
-  // Login as a student
   loginStudent(session, moodledata);
-
-  // Navigate to the course from the homepage
-  awaitFor(session.event('navigateToCourse'));
+  waitFor(session.event('navigateToCourse'));
   navigateToCourseFromHomePage(session);
-
-  // Navigate to the forum
-  awaitFor(session.event('navigateToForum'));
+  waitFor(session.event('navigateToForum'));
   navigateToForum(session);
-
-  // Navigate to the topic
-  awaitFor(session.event('navigateToTopic'));
+  waitFor(session.event('navigateToTopic'));
   navigateToTopic(session);
-
-  // Comment on the forum
-  block(session.event('hideForum')); // Prevent hiding the forum during commenting
-  awaitFor(session.event('commentOnForum'));
+  block(session.event('hideForum'));
+  waitFor(session.event('commentOnForum'));
   commentOnForum(session, moodledata);
-
-  // Check if the comment exists
   if (checkCommentExist(session)) {
     console.log('Comment successfully added.');
   } else {
     console.error('Comment could not be added.');
   }
-
-  // Logout
-  awaitFor(session.event('logout'));
+  waitFor(session.event('logout'));
   logout(session);
-
   session.stop();
 });
 
@@ -47,33 +32,20 @@ bthread('Reply', function () {
 bthread('Hide', function () {
   let session = new SeleniumSession('hide');
   session.start(URL);
-
-  // Login as a teacher
   loginTeacher(session, moodledata);
-
-  // Navigate to the course from the homepage
-  awaitFor(session.event('navigateToCourse'));
+  waitFor(session.event('navigateToCourse'));
   navigateToCourseFromHomePage(session);
-
-  // Navigate to the forum
-  awaitFor(session.event('navigateToForum'));
+  waitFor(session.event('navigateToForum'));
   navigateToForum(session);
-
-  // Hide the forum
-  block(session.event('commentOnForum')); // Prevent commenting while hiding
-  awaitFor(session.event('hideForum'));
+  block(session.event('commentOnForum'));
+  waitFor(session.event('hideForum'));
   hideForum(session);
-
-  // Check if the forum is hidden
   if (checkForumHiding(session)) {
     console.log('Forum successfully hidden.');
   } else {
     console.error('Forum could not be hidden.');
   }
-
-  // Logout
-  awaitFor(session.event('logout'));
+  waitFor(session.event('logout'));
   logout(session);
-
   session.stop();
 });
