@@ -1,10 +1,5 @@
 /* @provengo summon selenium */
 
-// Add an `event` function to the SeleniumSession prototype
-SeleniumSession.prototype.event = function (eventName) {
-  return { session: this, name: eventName };
-};
-
 /**
  * This story creates a new reply comment by a student on an existing topic in a course's forum.
  */
