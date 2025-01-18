@@ -61,10 +61,10 @@ const xpaths = {
     LogoutAfterReplying: {
       userMenuToggle: "//[@id="user-menu-toggle"]",
       logoutLink: "//*[@id="carousel-item-main"]/a[9]"
-    },
+    }
     CheckCommentExist: {
       replyExist: "//*[contains(text(),'reply')]"
-    },
+    }
     EnrollTeacher: {
        navigateToParticipates: "/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a",
        enrollUserButton: "//input[@type='submit' and @class='btn btn-primary']",
