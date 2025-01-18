@@ -1,97 +1,79 @@
 /* @provengo summon selenium */
 
-// Add an `event` function to the SeleniumSession prototype
-SeleniumSession.prototype.event = function (eventName) {
-  return { session: this, name: eventName };
-};
-
 /**
- * This story creates a new reply comment by a student on an existing topic in a course's forum.
+ * Behavior: Student Replies to a Forum Topic
  */
-bthread("Reply", function () {
-  let session = new SeleniumSession("reply");
-  session.start(URL, "chrome"); // Ensure browser type is specified
+bthread("Student Reply to Forum", function () {
+  let session = new SeleniumSession("reply"); // Initialize session
+  session.start(URL, "chrome"); // Start session with specified URL and browser
 
   // Log in as a student
+  sync({ request: session.event("loginStudent") });
   loginStudent(session, moodledata);
 
-  // Wait for and navigate to the course
-  let navigateToCourseEvent = session.event("navigateToCourse");
-  waitFor(navigateToCourseEvent);
+  // Navigate to course
+  sync({ request: session.event("navigateToCourse") });
   navigateToCourseFromHomePage(session);
 
-  // Wait for and navigate to the forum
-  let navigateToForumEvent = session.event("navigateToForum");
-  waitFor(navigateToForumEvent);
+  // Navigate to forum
+  sync({ request: session.event("navigateToForum") });
   navigateToForum(session);
 
-  // Wait for and navigate to the topic
-  let navigateToTopicEvent = session.event("navigateToTopic");
-  waitFor(navigateToTopicEvent);
+  // Navigate to topic
+  sync({ request: session.event("navigateToTopic") });
   navigateToTopic(session);
 
-  // Block hiding the forum during this interaction
-  block(session.event("hideForum"));
-
-  // Wait for and add a comment to the forum
-  let commentOnForumEvent = session.event("commentOnForum");
-  waitFor(commentOnForumEvent);
+  // Add a comment to the forum topic
+  sync({ request: session.event("commentOnForum") });
   commentOnForum(session, moodledata);
 
-  // Check if the comment exists
+  // Validate that the comment exists
   if (checkCommentExist(session)) {
     console.log("Comment successfully added.");
   } else {
     console.error("Comment could not be added.");
   }
 
-  // Wait for and log out
-  let logoutEvent = session.event("logout");
-  waitFor(logoutEvent);
+  // Log out
+  sync({ request: session.event("logout") });
   logout(session);
 
-  session.stop();
+  session.stop(); // End session
 });
 
 /**
- * This story hides a forum from students by a teacher.
+ * Behavior: Teacher Hides Forum from Students
  */
-bthread("Hide", function () {
-  let session = new SeleniumSession("hide");
-  session.start(URL, "chrome"); // Ensure browser type is specified
+bthread("Teacher Hides Forum", function () {
+  let session = new SeleniumSession("hide"); // Initialize session
+  session.start(URL, "chrome"); // Start session with specified URL and browser
 
   // Log in as a teacher
+  sync({ request: session.event("loginTeacher") });
   loginTeacher(session, moodledata);
 
-  // Wait for and navigate to the course
-  let navigateToCourseEvent = session.event("navigateToCourse");
-  waitFor(navigateToCourseEvent);
+  // Navigate to course
+  sync({ request: session.event("navigateToCourse") });
   navigateToCourseFromHomePage(session);
 
-  // Wait for and navigate to the forum
-  let navigateToForumEvent = session.event("navigateToForum");
-  waitFor(navigateToForumEvent);
+  // Navigate to forum
+  sync({ request: session.event("navigateToForum") });
   navigateToForum(session);
 
-  // Block commenting on the forum during this interaction
-  block(session.event("commentOnForum"));
-
-  // Wait for and hide the forum
-  let hideForumEvent = session.event("hideForum");
-  waitFor(hideForumEvent);
+  // Hide the forum
+  sync({ request: session.event("hideForum") });
   hideForum(session);
 
-  // Check if the forum is successfully hidden
+  // Validate that the forum is hidden
   if (checkForumHiding(session)) {
     console.log("Forum successfully hidden.");
   } else {
     console.error("Forum could not be hidden.");
   }
 
-  // Wait for and log out
-  let logoutEvent = session.event("logout");
-  waitFor(logoutEvent);
+  // Log out
+  sync({ request: session.event("logout") });
   logout(session);
 
-  session.stop();
+  session.stop(); // End session
 });
