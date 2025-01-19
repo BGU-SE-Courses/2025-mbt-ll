@@ -1,7 +1,11 @@
+
+
 function login(session, username, password) {
   session.click(xpaths.Login.navigateToLogin);
-  session.writeText(xpaths.Login.enterUsername, username);
-  session.writeText(xpaths.Login.enterPassword, password);
+  session.click(xpaths.Login.enterUsername);
+  session.writeText(username).then(r => "");
+  session.click(xpaths.Login.enterPassword);
+  session.writeText(password).then(r => "");
   session.click(xpaths.Login.loginButton);
 }
 
@@ -25,8 +29,10 @@ function logout(session) {
 function createCourse(session, data) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
-  session.writeText(xpaths.CreateCourse.enterFullName, data.Course.fullName);
-  session.writeText(xpaths.CreateCourse.enterShortName, data.Course.shortName);
+  session.click(xpaths.CreateCourse.enterFullName);
+  session.writeText(data.Course.fullName).then(r => "");
+  session.click(xpaths.CreateCourse.enterShortName);
+  session.writeText(data.Course.shortName).then(r => "");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -46,15 +52,29 @@ function createForum(session, data) {
   session.click(xpaths.CreateForum.editModeButton);
   session.click(xpaths.CreateForum.addAnActivity);
   session.click(xpaths.CreateForum.addForumButton);
-  session.writeText(xpaths.CreateForum.enterForumName, data.Forum.forumName);
+  session.click(xpaths.CreateForum.enterForumName);
+  session.writeText(data.Forum.forumName).then(r => "");
   session.click(xpaths.CreateForum.createForumButton);
 }
 
+let session;
+session.switchToIframe = function (enterMessageIframe) {
+  try {
+    const iframe = session.findElementByXPath(iframeXpath);
+    session.switchToFrame(iframe);
+    console.log(`Successfully switched to iframe at XPath "${iframeXpath}".`);
+  } catch (error) {
+    console.error(`Error switching to iframe at XPath "${iframeXpath}":, error`);
+  }
+};
+
 function createTopic(session, data) {
   session.click(xpaths.CreateTopic.addNewTopic);
-  session.writeText(xpaths.CreateTopic.enterTopicSubject, data.Forum.topicSubject);
+  session.click(xpaths.CreateTopic.enterTopicSubject);
+  session.writeText(data.Forum.topicSubject).then(r => "");
   session.switchToIframe(xpaths.CreateTopic.enterMessageIframe);
-  session.writeText(xpaths.CreateTopic.enterMessageBody, data.Forum.topicMessage);
+  session.click(xpaths.CreateTopic.enterMessageBody);
+  session.writeText(data.Forum.topicMessage).then(r => "");
   session.switchToDefaultContent();
   session.click(xpaths.CreateTopic.submitButton);
   session.click(xpaths.CreateTopic.returnToForum);
@@ -66,13 +86,27 @@ function navigateToForum(session) {
 
 function commentOnForum(session, data) {
   session.click(xpaths.CommentForum.replyButton);
-  session.writeText(xpaths.CommentForum.enterReplyTextArea, data.Forum.replyMessage);
+  session.click(xpaths.CommentForum.enterReplyTextArea);
+  session.writeText(data.Forum.replyMessage).then(r => "");
   session.click(xpaths.CommentForum.postReplyButton);
 }
 
 function navigateToTopic(session) {
   session.click(xpaths.NavigateToTopic.forumLink);
 }
+
+session.selectDropdownValue = function (enrollTeacherRoleDropdown, teacherRoleValue) {
+  try {
+    const dropdown = session.findElementByXPath(xpath);
+    dropdown.click(); // Open the dropdown
+    const optionXpath = `.//option[text()='${value}']`;
+    const option = dropdown.findElementByXPath(optionXpath);
+    option.click(); // Click the option to select
+    console.log(`Successfully selected value "${value}" from dropdown.`);
+  } catch (error) {
+    console.error(`Error selecting value "${value}" from dropdown at XPath "${xpath}":, error`);
+  }
+};
 
 function enrollTeacher(session) {
   session.click(xpaths.EnrollTeacher.navigateToParticipates);
