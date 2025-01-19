@@ -7,16 +7,16 @@ function login(session, username, password) {
   session.click(xpaths.Login.loginButton);
 }
 
-function loginStudent(session, data) {
-  login(session, data.Login.studentUsername, data.Login.password);
+function loginStudent(session) {
+  login(session,  moodledata.Login.studentUsername,  moodledata.Login.password);
 }
 
-function loginAdmin(session, data) {
-  login(session, data.Login.adminUsername, data.Login.password);
+function loginAdmin(session) {
+  login(session, moodledata.Login.adminUsername,  moodledata.Login.password);
 }
 
-function loginTeacher(session, data) {
-  login(session, data.Login.teacherUsername, data.Login.password);
+function loginTeacher(session) {
+  login(session, moodledata.Login.teacherUsername, moodledata.Login.password);
 }
 
 function logout(session) {
@@ -24,13 +24,13 @@ function logout(session) {
   session.click(xpaths.Logout.logoutLink);
 }
 
-function createCourse(session, data) {
+function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
   session.click(xpaths.CreateCourse.enterFullName);
-  session.writeText(data.Course.fullName).then(r => "");
+  session.writeText(moodledata.Course.fullName).then(r => "");
   session.click(xpaths.CreateCourse.enterShortName);
-  session.writeText(data.Course.shortName).then(r => "");
+  session.writeText(moodledata.Course.shortName).then(r => "");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -79,23 +79,23 @@ function switchToIframe(session, iframeXpath) {
   }
 }
 
-function createForum(session, data) {
+function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
   session.click(xpaths.CreateForum.addAnActivity);
   session.click(xpaths.CreateForum.addForumButton);
   session.click(xpaths.CreateForum.enterForumName);
-  session.writeText(data.Forum.forumName).then(r => "");
+  session.writeText(moodledata.Forum.forumName).then(r => "");
   session.click(xpaths.CreateForum.createForumButton);
 }
 
-function createTopic(session, data) {
+function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
   session.click(xpaths.CreateTopic.enterTopicSubject);
-  session.writeText(data.Forum.topicSubject).then(r => "");
+  session.writeText(moodledata.Forum.topicSubject).then(r => "");
   switchToIframe(session, xpaths.CreateTopic.enterMessageIframe);
   const iframeBody = session.findElementByTagName("body");
   iframeBody.clear();
-  iframeBody.writeText(data.Forum.topicMessage).then(r => "");
+  iframeBody.writeText(moodledata.Forum.topicMessage).then(r => "");
   session.switchToDefaultContent();
   session.click(xpaths.CreateTopic.submitButton);
   session.click(xpaths.CreateTopic.returnToForum);
@@ -105,10 +105,10 @@ function navigateToForum(session) {
   session.click(xpaths.NavigateToForum.forumLink);
 }
 
-function commentOnForum(session, data) {
+function commentOnForum(session) {
   session.click(xpaths.CommentForum.replyButton);
   session.click(xpaths.CommentForum.enterReplyTextArea);
-  session.writeText(data.Forum.replyMessage).then(r => "");
+  session.writeText(moodledata.Forum.replyMessage).then(r => "");
   session.click(xpaths.CommentForum.postReplyButton);
 }
 

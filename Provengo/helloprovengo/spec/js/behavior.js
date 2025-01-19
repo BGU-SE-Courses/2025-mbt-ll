@@ -6,31 +6,25 @@ bthread('Reply', function () {
 
   // Login as admin
   bp.sync({ request: bp.Event("loginAdmin") });
-  loginAdmin(session, moodledata);
 
   // Create a course
   bp.sync({ request: bp.Event("createCourse") });
-  createCourse(session, moodledata);
 
   // Navigate to the course
   bp.sync({ request: bp.Event("navigateToCourse") });
-  navigateToCourseFromHomePage(session);
 
   // Enroll a student in the course
   bp.sync({ request: bp.Event("enrollStudent") });
-  enrollStudent(session);
 
   // Create a forum
   bp.sync({ request: bp.Event("createForum") });
-  createForum(session, moodledata);
 
   // Logout admin
-  bp.sync({ request: bp.Event("logoutAdmin") });
+  bp.sync({ request: bp.Event("logout") });
   logout(session);
 
   // Login as student
   bp.sync({ request: bp.Event("loginStudent") });
-  loginStudent(session, moodledata);
 
   // Navigate to the forum
   bp.sync({ request: bp.Event("navigateToForum") });
@@ -38,7 +32,6 @@ bthread('Reply', function () {
 
   // Create a topic in the forum
   bp.sync({ request: bp.Event("createTopic") });
-  createTopic(session, moodledata);
 
   // Navigate to the specific topic
   bp.sync({ request: bp.Event("navigateToTopic") });
@@ -47,7 +40,6 @@ bthread('Reply', function () {
   // Comment on the forum (ensure it's unblocked first)
   bp.sync({ block: bp.Event("hideForum") });
   bp.sync({ request: bp.Event("commentOnForum") });
-  commentOnForum(session, moodledata);
 
   // Verify the comment exists
   bp.sync({ request: bp.Event("checkCommentExist") });
@@ -57,8 +49,7 @@ bthread('Reply', function () {
     console.error('Comment could not be added.');
   }
 
-  // Logout student
-  bp.sync({ request: bp.Event("logoutStudent") });
+  bp.sync({ request: bp.Event("logout") });
   logout(session);
 
   session.stop(); // End the session
@@ -70,11 +61,9 @@ bthread('Hide', function () {
 
   // Login as admin
   bp.sync({ request: bp.Event("loginAdmin") });
-  loginAdmin(session, moodledata);
 
   // Create a course
   bp.sync({ request: bp.Event("createCourse") });
-  createCourse(session, moodledata);
 
   // Navigate to the course
   bp.sync({ request: bp.Event("navigateToCourse") });
@@ -82,15 +71,12 @@ bthread('Hide', function () {
 
   // Enroll a student in the course
   bp.sync({ request: bp.Event("enrollStudent") });
-  enrollStudent(session);
 
   // Enroll a teacher in the course
   bp.sync({ request: bp.Event("enrollTeacher") });
-  enrollTeacher(session);
 
   // Create a forum
   bp.sync({ request: bp.Event("createForum") });
-  createForum(session, moodledata);
 
   // Logout admin
   bp.sync({ request: bp.Event("logoutAdmin") });
@@ -98,7 +84,6 @@ bthread('Hide', function () {
 
   // Login as teacher
   bp.sync({ request: bp.Event("loginTeacher") });
-  loginTeacher(session, moodledata);
 
   // Navigate to the forum
   bp.sync({ request: bp.Event("navigateToForum") });
@@ -119,9 +104,8 @@ bthread('Hide', function () {
     console.error('Forum could not be hidden.');
   }
 
-  // Logout teacher
-  bp.sync({ request: bp.Event("logoutTeacher") });
+  bp.sync({ request: bp.Event("logout") });
   logout(session);
 
-  session.stop(); // End the session
+  session.stop();
 });
