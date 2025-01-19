@@ -1,133 +1,123 @@
 function login(session, username, password) {
-    session.click(xpaths.Login.navigateToLogin);
-    session.click(xpaths.Login.enterUsername);
-    session.writeText(username).then(r => "");
-    session.click(xpaths.Login.enterPassword);
-    session.writeText(password).then(r => "");
-    session.click(xpaths.Login.loginButton);
+  session.findElementByXPath(xpaths.Login.navigateToLogin).click();
+  session.findElementByXPath(xpaths.Login.enterUsername).sendKeys(username);
+  session.findElementByXPath(xpaths.Login.enterPassword).sendKeys(password);
+  session.findElementByXPath(xpaths.Login.loginButton).click();
 }
 
 function loginStudent(session, data) {
-    login(session, data.Login.studentUsername, data.Login.password);
+  login(session, data.Login.studentUsername, data.Login.password);
 }
 
 function loginAdmin(session, data) {
-    login(session, data.Login.adminUsername, data.Login.password);
+  login(session, data.Login.adminUsername, data.Login.password);
 }
 
 function loginTeacher(session, data) {
-    login(session, data.Login.teacherUsername, data.Login.password);
+  login(session, data.Login.teacherUsername, data.Login.password);
 }
 
 function logout(session) {
-    session.click(xpaths.Logout.userMenuToggle);
-    session.click(xpaths.Logout.logoutLink);
+  session.findElementByXPath(xpaths.Logout.userMenuToggle).click();
+  session.findElementByXPath(xpaths.Logout.logoutLink).click();
 }
 
 function createCourse(session, data) {
-    session.click(xpaths.CreateCourse.navigateToMyCourses);
-    session.click(xpaths.CreateCourse.navigateToCreateCourse);
-    session.click(xpaths.CreateCourse.enterFullName);
-    session.writeText(data.Course.fullName).then(r => "");
-    session.click(xpaths.CreateCourse.enterShortName);
-    session.writeText(data.Course.shortName).then(r => "");
-    session.click(xpaths.CreateCourse.createButton);
+  session.findElementByXPath(xpaths.CreateCourse.navigateToMyCourses).click();
+  session.findElementByXPath(xpaths.CreateCourse.navigateToCreateCourse).click();
+  session.findElementByXPath(xpaths.CreateCourse.enterFullName).sendKeys(data.Course.fullName);
+  session.findElementByXPath(xpaths.CreateCourse.enterShortName).sendKeys(data.Course.shortName);
+  session.findElementByXPath(xpaths.CreateCourse.createButton).click();
 }
 
 function navigateToCourseFromHomePage(session) {
-    session.click(xpaths.NavigateToCourseFromHomePage.navigateToCourse);
+  session.findElementByXPath(xpaths.NavigateToCourseFromHomePage.navigateToCourse).click();
 }
 
 function enrollStudent(session) {
-    session.click(xpaths.EnrollStudent.navigateToParticipates);
-    session.click(xpaths.EnrollStudent.enrollUserButton);
-    session.click(xpaths.EnrollStudent.selectUserComboBox);
-    session.writeText(moodledata.Login.studentUsername).then(r => "");
-    session.click(xpaths.EnrollStudent.enrollButton);
-    session.click(xpaths.EnrollStudent.navigateToCourseHome);
+  session.findElementByXPath(xpaths.EnrollStudent.navigateToParticipates).click();
+  session.findElementByXPath(xpaths.EnrollStudent.enrollUserButton).click();
+  session.findElementByXPath(xpaths.EnrollStudent.selectUserComboBox).sendKeys(moodledata.Login.studentUsername);
+  session.findElementByXPath(xpaths.EnrollStudent.enrollButton).click();
+  session.findElementByXPath(xpaths.EnrollStudent.navigateToCourseHome).click();
 }
 
 function selectDropdownValue(session, dropdownXpath, value) {
-    try {
-        const dropdown = session.findElementByXPath(dropdownXpath);
-        dropdown.click(); // Open the dropdown
-        const optionXpath = `.//option[text()='${value}']`;
-        const option = dropdown.findElementByXPath(optionXpath);
-        option.click(); // Select the option
-        console.log(`Successfully selected "${value}" in dropdown at "${dropdownXpath}".`);
-    } catch (error) {
-        console.error(`Error selecting "${value}" in dropdown at "${dropdownXpath}":`, error);
-    }
+  try {
+    const dropdown = session.findElementByXPath(dropdownXpath);
+    dropdown.click(); // Open the dropdown
+    const option = dropdown.findElement(By.xpath(`.//option[text()='${value}']`));
+    option.click(); // Select the option
+    console.log(`Successfully selected "${value}" in dropdown.`);
+  } catch (error) {
+    console.error(`Error selecting "${value}" in dropdown at "${dropdownXpath}":`, error);
+  }
 }
 
 function enrollTeacher(session) {
-    session.click(xpaths.EnrollTeacher.navigateToParticipates);
-    session.click(xpaths.EnrollTeacher.enrollUserButton);
-    session.click(xpaths.EnrollTeacher.selectUserComboBox);
-    session.writeText(moodledata.Login.teacherUsername).then(r => "");
-    selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
-    session.click(xpaths.EnrollTeacher.enrollButton);
-    session.click(xpaths.EnrollTeacher.navigateToCourseHome);
+  session.findElementByXPath(xpaths.EnrollTeacher.navigateToParticipates).click();
+  session.findElementByXPath(xpaths.EnrollTeacher.enrollUserButton).click();
+  session.findElementByXPath(xpaths.EnrollTeacher.selectUserComboBox).sendKeys(moodledata.Login.teacherUsername);
+  selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
+  session.findElementByXPath(xpaths.EnrollTeacher.enrollButton).click();
+  session.findElementByXPath(xpaths.EnrollTeacher.navigateToCourseHome).click();
 }
 
 function switchToIframe(session, iframeXpath) {
-    try {
-        const iframe = session.findElementByXPath(iframeXpath);
-        session.switchToFrame(iframe);
-        console.log(`Switched to iframe at "${iframeXpath}".`);
-    } catch (error) {
-        console.error(`Error switching to iframe at "${iframeXpath}":`, error);
-    }
+  try {
+    const iframe = session.findElementByXPath(iframeXpath);
+    session.switchTo().frame(iframe); // Switch context to iframe
+    console.log(`Switched to iframe at "${iframeXpath}".`);
+  } catch (error) {
+    console.error(`Error switching to iframe at "${iframeXpath}":`, error);
+  }
 }
 
 function createForum(session, data) {
-    session.click(xpaths.CreateForum.editModeButton);
-    session.click(xpaths.CreateForum.addAnActivity);
-    session.click(xpaths.CreateForum.addForumButton);
-    session.click(xpaths.CreateForum.enterForumName);
-    session.writeText(data.Forum.forumName).then(r => "");
-    session.click(xpaths.CreateForum.createForumButton);
+  session.findElementByXPath(xpaths.CreateForum.editModeButton).click();
+  session.findElementByXPath(xpaths.CreateForum.addAnActivity).click();
+  session.findElementByXPath(xpaths.CreateForum.addForumButton).click();
+  session.findElementByXPath(xpaths.CreateForum.enterForumName).sendKeys(data.Forum.forumName);
+  session.findElementByXPath(xpaths.CreateForum.createForumButton).click();
 }
 
 function createTopic(session, data) {
-    session.click(xpaths.CreateTopic.addNewTopic);
-    session.click(xpaths.CreateTopic.enterTopicSubject);
-    session.writeText(data.Forum.topicSubject).then(r => "");
-    switchToIframe(session, xpaths.CreateTopic.enterMessageIframe);
-    const iframeBody = session.findElementByTagName("body");
-    iframeBody.clear();
-    iframeBody.writeText(data.Forum.topicMessage).then(r => "");
-    session.switchToDefaultContent();
-    session.click(xpaths.CreateTopic.submitButton);
-    session.click(xpaths.CreateTopic.returnToForum);
+  session.findElementByXPath(xpaths.CreateTopic.addNewTopic).click();
+  session.findElementByXPath(xpaths.CreateTopic.enterTopicSubject).sendKeys(data.Forum.topicSubject);
+  switchToIframe(session, xpaths.CreateTopic.enterMessageIframe);
+  const iframeBody = session.findElement(By.tagName("body"));
+  iframeBody.clear();
+  iframeBody.sendKeys(data.Forum.topicMessage);
+  session.switchTo().defaultContent(); // Switch back to the main page
+  session.findElementByXPath(xpaths.CreateTopic.submitButton).click();
+  session.findElementByXPath(xpaths.CreateTopic.returnToForum).click();
 }
 
 function navigateToForum(session) {
-    session.click(xpaths.NavigateToForum.forumLink);
+  session.findElementByXPath(xpaths.NavigateToForum.forumLink).click();
 }
 
 function commentOnForum(session, data) {
-    session.click(xpaths.CommentForum.replyButton);
-    session.click(xpaths.CommentForum.enterReplyTextArea);
-    session.writeText(data.Forum.replyMessage).then(r => "");
-    session.click(xpaths.CommentForum.postReplyButton);
+  session.findElementByXPath(xpaths.CommentForum.replyButton).click();
+  session.findElementByXPath(xpaths.CommentForum.enterReplyTextArea).sendKeys(data.Forum.replyMessage);
+  session.findElementByXPath(xpaths.CommentForum.postReplyButton).click();
 }
 
 function navigateToTopic(session) {
-    session.click(xpaths.NavigateToTopic.forumLink);
+  session.findElementByXPath(xpaths.NavigateToTopic.forumLink).click();
 }
 
 function hideForum(session) {
-    session.click(xpaths.HideForum.editForumButton);
-    session.click(xpaths.HideForum.forumVisibilitySection);
-    selectDropdownValue(session, xpaths.HideForum.visibilityDropdown, xpaths.HideForum.hideOnCoursePageOption);
-    session.click(xpaths.HideForum.saveChangesButton);
+  session.findElementByXPath(xpaths.HideForum.editForumButton).click();
+  session.findElementByXPath(xpaths.HideForum.forumVisibilitySection).click();
+  selectDropdownValue(session, xpaths.HideForum.visibilityDropdown, "Hide on course page");
+  session.findElementByXPath(xpaths.HideForum.saveChangesButton).click();
 }
 
 function checkForumHiding(session) {
-    return session.isElementPresent(xpaths.CheckForumHiding.hiding);
+  return session.findElementByXPath(xpaths.CheckForumHiding.hiding) !== null;
 }
 
 function checkCommentExist(session) {
-    return session.isElementPresent(xpaths.CheckCommentExist.replyExist);
+  return session.findElementByXPath(xpaths.CheckCommentExist.replyExist) !== null;
 }
