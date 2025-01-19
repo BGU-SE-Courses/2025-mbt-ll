@@ -1,9 +1,8 @@
 /* @provengo summon selenium */
 
-// A behavior thread for commenting on a forum
 bthread('Reply', function () {
-  let session = new SeleniumSession('reply'); // Initialize a Selenium session for replying
-  session.start(URL, 'chrome'); // Start the browser session
+  let session = new SeleniumSession('reply');
+  session.start(URL, 'chrome');
 
   // Login as admin
   bp.sync({ request: bp.Event("loginAdmin") });
@@ -65,10 +64,9 @@ bthread('Reply', function () {
   session.stop(); // End the session
 });
 
-// A behavior thread for hiding the forum
 bthread('Hide', function () {
-  let session = new SeleniumSession('hide'); // Initialize a Selenium session for hiding
-  session.start(URL, 'chrome'); // Start the browser session
+  let session = new SeleniumSession('hide');
+  session.start(URL, 'chrome');
 
   // Login as admin
   bp.sync({ request: bp.Event("loginAdmin") });
