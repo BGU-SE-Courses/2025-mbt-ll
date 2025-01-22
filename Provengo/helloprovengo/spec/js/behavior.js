@@ -9,13 +9,13 @@ bthread('Reply', function () {
   sync({ request: Event("loginAdmin") });
 
   // Create a course
-  sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("navigateToCourse") });
-
-  // Navigate to the course
-  sync({ request: Event("navigateToCourse"), waitFor: Event("createCourse"), block: Event("createForum") });
+  sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("createForum") });
 
   // Create a forum
   sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logout") });
+
+  // Create a topic in the forum
+  sync({ request: Event("createTopic"), waitFor: Event("createForum"), block: Event("logout") });
 
   // Logout admin
   sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginStudent") });
@@ -24,15 +24,15 @@ bthread('Reply', function () {
   // Login as student
   sync({ request: Event("loginStudent"), waitFor: Event("logout"), block: Event("navigateToForum") });
 
+  sync({ request: Event("navigateToCourse"), waitFor: Event("loginStudent"), block: Event("navigateToForum") });
+  navigateToCourseFromHomePage(session);
+
   // Navigate to the forum
-  sync({ request: Event("navigateToForum"), waitFor: Event("loginStudent"), block: Event("createTopic") });
+  sync({ request: Event("navigateToForum"), waitFor: Event("navigateToCourse"), block: Event("navigateToTopic") });
   navigateToForum(session);
 
-  // Create a topic in the forum
-  sync({ request: Event("createTopic"), waitFor: Event("createForum"), block: Event("navigateToTopic") });
-
   // Navigate to the specific topic
-  sync({ request: Event("navigateToTopic"), waitFor: Event("createTopic"), block: Event("commentOnForum") });
+  sync({ request: Event("navigateToTopic"), waitFor: Event("navigateToForum"), block: Event("commentOnForum") });
   navigateToTopic(session);
 
   // Comment on the forum
@@ -49,15 +49,6 @@ bthread('Reply', function () {
   sync({ request: Event("replyCompletedTrigger") });
 });
 
-// Flexible Enroll Student Bthread
-bthread('FlexibleEnrollStudent', function () {
-  // Allow enrolling a student immediately after course creation
-  sync({ request: Event("enrollStudent"), waitFor: Event("createCourse"), block: [Event("logout")] });
-
-  // Allow enrolling a student after the forum is created
-  sync({ request: Event("enrollStudent"), waitFor: Event("createForum"), block: [Event("logout")] });
-});
-
 // Hide Bthread
 bthread('Hide', function () {
   // Wait for the Reply Bthread to signal completion using the trigger event
@@ -70,20 +61,10 @@ bthread('Hide', function () {
   sync({ request: Event("loginAdmin"), block: Event("createCourse") });
 
   // Create a course
-  sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("navigateToCourse") });
-
-  // Navigate to the course
-  sync({ request: Event("navigateToCourse"), waitFor: Event("createCourse"), block: Event("createForum") });
-  navigateToCourseFromHomePage(session);
-
-  // Enroll a student in the course
-  sync({ request: Event("enrollStudent"), waitFor: Event("createCourse"), block: Event("logout") });
-
-  // Enroll a teacher in the course
-  sync({ request: Event("enrollTeacher"), waitFor: Event("createCourse"), block: Event("logout") });
+  sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("createForum") });
 
   // Create a forum
-  sync({ request: Event("createForum"), waitFor: Event("navigateToCourse"), block: Event("logout") });
+  sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logout") });
 
   // Logout admin
   sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginTeacher") });
@@ -91,6 +72,9 @@ bthread('Hide', function () {
 
   // Login as teacher
   sync({ request: Event("loginTeacher"), waitFor: Event("logout"), block: Event("navigateToForum") });
+
+  sync({ request: Event("navigateToCourse"), waitFor: Event("loginTeacher"), block: Event("navigateToForum") });
+  navigateToCourseFromHomePage(session);
 
   // Navigate to the forum
   sync({ request: Event("navigateToForum"), waitFor: Event("loginTeacher"), block: Event("hideForum") });
@@ -106,4 +90,19 @@ bthread('Hide', function () {
   // Logout teacher
   sync({ request: Event("logout"), waitFor: Event("checkForumHiding") });
   logout(session);
+});
+
+bthread('CommentEnrollStudent', function () {
+  sync({ waitFor: Event("createCourse") });
+  sync({ request: Event("enrollStudent"), block: Event("createTopic") });
+});
+
+bthread('HideEnrollStudent', function () {
+  sync({ waitFor: Event("createCourse") });
+  sync({ request: Event("enrollStudent"), block: Event("logout") });
+});
+
+bthread('HideEnrollTeacher', function () {
+  sync({ waitFor: Event("createCourse") });
+  sync({ request: Event("enrollTeacher"), block: Event("logout") });
 });
