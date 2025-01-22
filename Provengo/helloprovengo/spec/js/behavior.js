@@ -5,51 +5,52 @@ bthread('Reply', function () {
   session.start(URL, 'chrome');
 
   // Login as admin
-  bp.sync({ request: bp.Event("loginAdmin") });
+  sync({ request: Event("loginAdmin") });
 
   // Create a course
-  bp.sync({ request: bp.Event("createCourse"),waitFor:bp.Event("loginAdmin")});
+  sync({ request: Event("createCourse"),waitFor:Event("loginAdmin"),block:Event("navigateToCourse")});
 
   // Navigate to the course
-  bp.sync({ request: bp.Event("navigateToCourse"),waitFor:bp.Event("createCourse")});
+  sync({ request: Event("navigateToCourse"),waitFor:Event("createCourse"),block:Event("createForum")});
 
   // Enroll a student in the course
-  bp.sync({ request: bp.Event("enrollStudent"), waitFor:bp.Event("createCourse")});
+  sync({ request: Event("enrollStudent"), waitFor:Event("createCourse"),block:Event("logout")});
 
   // Create a forum
-  bp.sync({ request: bp.Event("createForum"),waitFor:bp.Event("createCourse") });
+  sync({ request: Event("createForum"),waitFor:Event("createCourse"),block:Event("logout") });
 
   // Logout admin
-  bp.sync({ request: bp.Event("logout"),waitFor: bp.Event("createForum")});
+  sync({ request: Event("logout"),waitFor: Event("createForum"),block:Event("loginStudent")});
   logout(session);
 
   // Login as student
-  bp.sync({ request: bp.Event("loginStudent"), waitFor:bp.Event("logout")});
+  sync({ request: Event("loginStudent"), waitFor:Event("logout"),block:Event("navigateToForum")});
 
   // Navigate to the forum
-  bp.sync({ request: bp.Event("navigateToForum"), waitFor:bp.Event("loginStudent")});
+  sync({ request: Event("navigateToForum"), waitFor:Event("loginStudent"),block:Event("createTopic")});
   navigateToForum(session);
 
   // Create a topic in the forum
-  bp.sync({ request: bp.Event("createTopic"),waitFor: bp.Event("createForum")});
+  sync({ request: Event("createTopic"),waitFor: Event("createForum"),block:Event("navigateToTopic")});
 
   // Navigate to the specific topic
-  bp.sync({ request: bp.Event("navigateToTopic"),waitFor: bp.Event("createTopic")});
+  sync({ request: Event("navigateToTopic"),waitFor: Event("createTopic"),block:Event("commentOnForum")});
   navigateToTopic(session);
 
   // Comment on the forum (ensure it's unblocked first)
-  bp.sync({ block: bp.Event("hideForum") });
-  bp.sync({ request: bp.Event("commentOnForum") , waitFor: bp.Event("navigateToTopic") });
+
+  sync({ block: Event("hideForum") });
+  sync({ request: Event("commentOnForum") , waitFor: Event("navigateToTopic"),block: Event("checkCommentExist")});
 
   // Verify the comment exists
-  bp.sync({ request: bp.Event("checkCommentExist") ,waitFor: bp.Event("commentOnForum")});
+  sync({ request: Event("checkCommentExist") ,waitFor: Event("commentOnForum"),block: Event("logout")});
   if (checkCommentExist(session)) {
     console.log('Comment successfully added.');
   } else {
     console.error('Comment could not be added.');
   }
 
-  bp.sync({ request: bp.Event("logout") ,waitFor: bp.Event("checkCommentExist") });
+  sync({ request: Event("logout") ,waitFor: Event("checkCommentExist") });
   logout(session);
 
   session.stop(); // End the session
@@ -60,51 +61,49 @@ bthread('Hide', function () {
   session.start(URL, 'chrome');
 
   // Login as admin
-  bp.sync({ request: bp.Event("loginAdmin")});
+  sync({ request: Event("loginAdmin"), waitFor:Event("checkCommentExist"),block:Event("createCourse")});
 
   // Create a course
-  bp.sync({ request: bp.Event("createCourse"), waitFor: bp.Event("loginAdmin")});
+  sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"),block:Event("navigateToCourse")});
 
   // Navigate to the course
-  bp.sync({ request: bp.Event("navigateToCourse"), waitFor: bp.Event("createCourse")});
+  sync({ request: Event("navigateToCourse"), waitFor: Event("createCourse"),block:Event("createForum")});
   navigateToCourseFromHomePage(session);
 
   // Enroll a student in the course
-  bp.sync({ request: bp.Event("enrollStudent"),waitFor:bp.Event("loginAdmin") });
+  sync({ request: Event("enrollStudent"),waitFor:Event("loginAdmin"),block:Event("logout") });
 
   // Enroll a teacher in the course
-  bp.sync({ request: bp.Event("enrollTeacher"),waitFor:bp.Event("loginAdmin") });
+  sync({ request: Event("enrollTeacher"),waitFor:Event("loginAdmin"),block:Event("logout") });
 
   // Create a forum
-  bp.sync({ request: bp.Event("createForum"), waitFor:bp.Event("navigateToCourse")});
+  sync({ request: Event("createForum"), waitFor:Event("navigateToCourse"),block:Event("logout")});
 
   // Logout admin
-  bp.sync({ request: bp.Event("logoutAdmin"),waitFor:bp.Event("createForum")});
+  sync({ request: Event("logout"),waitFor:Event("createForum"),block:Event("loginTeacher")});
   logout(session);
 
   // Login as teacher
-  bp.sync({ request: bp.Event("loginTeacher") , waitFor:bp.Event("logoutAdmin")});
+  sync({ request: Event("loginTeacher") , waitFor:Event("logout"),block:Event("navigateToForum")});
 
   // Navigate to the forum
-  bp.sync({ request: bp.Event("navigateToForum"),waitFor: bp.Event("loginTeacher")});
+  sync({ request: Event("navigateToForum"),waitFor: Event("loginTeacher"),block:Event("hideForum")});
   navigateToForum(session);
 
   // Block comments before hiding the forum
-  bp.sync({ block: bp.Event("commentOnForum") });
-
-  // Hide the forum
-  bp.sync({ request: bp.Event("hideForum"),waitFor:bp.Event("navigateToForum")});
+  sync({ block: Event("commentOnForum") });
+  sync({ request: Event("hideForum"),waitFor:Event("navigateToForum"),block:Event("checkForumHiding")});
   hideForum(session);
 
   // Verify the forum is hidden
-  bp.sync({ request: bp.Event("checkForumHiding"),waitFor: bp.Event("hideForum")});
+  sync({ request: Event("checkForumHiding"),waitFor: Event("hideForum")});
   if (checkForumHiding(session)) {
     console.log('Forum successfully hidden.');
   } else {
     console.error('Forum could not be hidden.');
   }
 
-  bp.sync({ request: bp.Event("logout"),waitFor:bp.Event("checkForumHiding") });
+  sync({ request: Event("logout"),waitFor:Event("checkForumHiding") });
   logout(session);
 
   session.stop();
