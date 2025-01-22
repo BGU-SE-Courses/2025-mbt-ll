@@ -14,9 +14,6 @@ bthread('Reply', function () {
   // Navigate to the course
   sync({ request: Event("navigateToCourse"), waitFor: Event("createCourse"), block: Event("createForum") });
 
-  // Enroll a student in the course
-  sync({ request: Event("enrollStudent"), waitFor: Event("createCourse"), block: Event("logout") });
-
   // Create a forum
   sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logout") });
 
@@ -49,7 +46,16 @@ bthread('Reply', function () {
   logout(session);
 
   // Emit the trigger event to wake up the Hide Bthread
-  sync({ request: Event("replyCompletedTrigger")});
+  sync({ request: Event("replyCompletedTrigger") });
+});
+
+// Flexible Enroll Student Bthread
+bthread('FlexibleEnrollStudent', function () {
+  // Allow enrolling a student immediately after course creation
+  sync({ request: Event("enrollStudent"), waitFor: Event("createCourse"), block: [Event("logout")] });
+
+  // Allow enrolling a student after the forum is created
+  sync({ request: Event("enrollStudent"), waitFor: Event("createForum"), block: [Event("logout")] });
 });
 
 // Hide Bthread
@@ -101,5 +107,3 @@ bthread('Hide', function () {
   sync({ request: Event("logout"), waitFor: Event("checkForumHiding") });
   logout(session);
 });
-
-
