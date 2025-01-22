@@ -55,7 +55,7 @@ function selectDropdownValue(session, dropdownXpath, value) {
     option.click(); // Select the option
     console.log(`Successfully selected "${value}" in dropdown.`);
   } catch (error) {
-    console.error(`Error selecting "${value}" in dropdown at "${dropdownXpath}":`, error);
+    //console.error(`Error selecting "${value}" in dropdown at "${dropdownXpath}":`, error);
   }
 }
 
