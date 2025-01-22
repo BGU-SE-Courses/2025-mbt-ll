@@ -1,11 +1,12 @@
 /* @provengo summon selenium */
 
+// Reply Bthread
 bthread('Reply', function () {
   let session = new SeleniumSession('reply');
   session.start(URL, 'chrome');
 
   // Login as admin
-  sync({ request: Event("loginAdmin") });
+ /* sync({ request: Event("loginAdmin") });
 
   // Create a course
   sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("navigateToCourse") });
@@ -37,33 +38,38 @@ bthread('Reply', function () {
   sync({ request: Event("navigateToTopic"), waitFor: Event("createTopic"), block: Event("commentOnForum") });
   navigateToTopic(session);
 
-  // Comment on the forum (ensure it's unblocked first)
+  // Comment on the forum
   sync({ block: Event("hideForum") });
   sync({ request: Event("commentOnForum"), waitFor: Event("navigateToTopic"), block: Event("checkCommentExist") });
 
   // Verify the comment exists
   sync({ request: Event("checkCommentExist"), waitFor: Event("commentOnForum"), block: Event("logout") });
   if (checkCommentExist(session)) {
-    console.log('Comment successfully added.');
+    console.log('Reply Bthread: Comment successfully added.');
   } else {
-    console.error('Comment could not be added.');
+    console.error('Reply Bthread: Comment could not be added.');
   }
 
+  // Logout student
   sync({ request: Event("logout"), waitFor: Event("checkCommentExist") });
-  logout(session);
+  logout(session); */
 
-  // Signal the completion of the Reply bthread
-  sync({ request: Event("replyCompleted") });
+  // Emit the trigger event to wake up the Hide Bthread
+  sync({ request: Event("replyCompletedTrigger") });
 
   session.stop(); // End the session
 });
 
+// Hide Bthread
 bthread('Hide', function () {
   let session = new SeleniumSession('hide');
   session.start(URL, 'chrome');
 
-  // Block this thread until the Reply thread is completed
-  sync({ waitFor: Event("replyCompleted") });
+  // Wait for the Reply Bthread to signal completion using the trigger event
+  sync({ waitFor: Event("replyCompletedTrigger") });
+
+  // Now trigger the "bbb" event
+  sync({ request: Event("bbb") });
 
   // Login as admin
   sync({ request: Event("loginAdmin"), block: Event("createCourse") });
@@ -103,11 +109,12 @@ bthread('Hide', function () {
   // Verify the forum is hidden
   sync({ request: Event("checkForumHiding"), waitFor: Event("hideForum") });
   if (checkForumHiding(session)) {
-    console.log('Forum successfully hidden.');
+    console.log('Hide Bthread: Forum successfully hidden.');
   } else {
-    console.error('Forum could not be hidden.');
+    console.error('Hide Bthread: Forum could not be hidden.');
   }
 
+  // Logout teacher
   sync({ request: Event("logout"), waitFor: Event("checkForumHiding") });
   logout(session);
 

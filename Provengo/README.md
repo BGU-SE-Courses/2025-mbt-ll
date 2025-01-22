@@ -21,7 +21,7 @@ For a full documentation go to [https://docs.provengo.tech](https://docs.proveng
 1. We started by creating the following files: [behavior.js](helloprovengo/spec/js/behavior.js),[actions.js](helloprovengo/spec/js/actions.js), and [data.js](helloprovengo/data/data.js).
 2. We then ran the following command to generate the test model:
 ```shell
-provengo analyze -f PDF helloprovengo   
+provengo analyze -f pdf helloprovengo   
 ```
 3. We repeated steps 1-2 until we were satisfied with the generated model.
 4. We used the following command to run the tests:
