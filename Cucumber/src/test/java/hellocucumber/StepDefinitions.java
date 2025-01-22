@@ -28,11 +28,11 @@ public class StepDefinitions {
      * 2. Logging in as an admin.
      * 3. Creating a new course.
      */
-    @Given("There is a course")
-    public void createCourse() {
+    @Given("There is a course for comments scenario")
+    public void createCourseForCommenting() {
         initSession();
-        moodleActuator.loginAdmin();
-        moodleActuator.createCourse();
+        moodleActuator.login("admin","sandbox24");
+        moodleActuator.createCourse("test5");
     }
 
     /**
@@ -42,10 +42,10 @@ public class StepDefinitions {
      * 1. Enrolling a user in the course.
      * 2. Creating a forum within the course.
      */
-    @And("There is a forum")
-    public void createForum() {
-        moodleActuator.enrollUser();
-        moodleActuator.createForum();
+    @And("There is a forum for comments scenario")
+    public void createForumForCommenting() {
+        moodleActuator.enrollStudent();
+        moodleActuator.createForum("forum1");
     }
 
     /**
@@ -71,7 +71,7 @@ public class StepDefinitions {
     @And("Student is on forum page")
     public void studentInOnForumPage() {
         moodleActuator.logout();
-        moodleActuator.loginStudent();
+        moodleActuator.login("student","sandbox24");
         moodleActuator.goToCourse();
         moodleActuator.goToForum();
     }
@@ -97,11 +97,39 @@ public class StepDefinitions {
     @Then("The comment should be shown")
     public void commentIsShownOnForum() {
         moodleActuator.checkCommentExists();
+        moodleActuator.logoutAfterReplying();
     }
 
     // =============================
     // Use Case: Hide Forum
     // =============================
+
+    /**
+     * Step: There is a course
+     *
+     * This step creates a course in Moodle by:
+     * 1. Initializing a session.
+     * 2. Logging in as an admin.
+     * 3. Creating a new course.
+     */
+    @Given("There is a course for hiding forum scenario")
+    public void createCourseForHiding() {
+        moodleActuator.login("admin","sandbox24");
+        moodleActuator.createCourse("test2");
+    }
+
+    /**
+     * Step: There is a forum
+     *
+     * This step creates a forum within the course by:
+     * 1. Enrolling a user in the course.
+     * 2. Creating a forum within the course.
+     */
+    @And("There is a forum for hiding scenario")
+    public void createForumForHiding() {
+        moodleActuator.enrollStudent();
+        moodleActuator.createForum("forum2");
+    }
 
     /**
      * Step: "Teacher is enrolled"
@@ -124,7 +152,7 @@ public class StepDefinitions {
     @And("Teacher is on forum page")
     public void teacherInOnForumPage() {
         moodleActuator.logout();
-        moodleActuator.loginTeacher();
+        moodleActuator.login("teacher","sandbox24");
         moodleActuator.goToCourse();
     }
 
@@ -153,7 +181,7 @@ public class StepDefinitions {
      */
     @Then("The forum is hidden")
     public void hiddenForum() {
-        moodleActuator.loginStudent();
+        moodleActuator.login("student","sandbox24");
         moodleActuator.goToCourse();
         moodleActuator.checkForumHiding();
     }
