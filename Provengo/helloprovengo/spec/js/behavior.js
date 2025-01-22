@@ -11,6 +11,8 @@ bthread('Reply', function () {
   // Create a course
   sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("createForum") });
 
+  sync({ request: Event("gettingToEnrollForComment")});
+
   // Create a forum
   sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logout") });
 
@@ -63,8 +65,10 @@ bthread('Hide', function () {
   // Create a course
   sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("createForum") });
 
+  sync({ request: Event("gettingToEnrollForHide")});
+
   // Create a forum
-  sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logout") });
+  sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logoutAdmin") });
 
   // Logout admin
   sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginTeacher") });
@@ -93,16 +97,16 @@ bthread('Hide', function () {
 });
 
 bthread('CommentEnrollStudent', function () {
-  sync({ waitFor: Event("createCourse") });
+  sync({ waitFor: Event("gettingToEnrollForComment")});
   sync({ request: Event("enrollStudent"), block: Event("createTopic") });
 });
 
 bthread('HideEnrollStudent', function () {
-  sync({ waitFor: Event("createCourse") });
+  sync({ waitFor: Event("gettingToEnrollForHide")});
   sync({ request: Event("enrollStudent"), block: Event("logout") });
 });
 
 bthread('HideEnrollTeacher', function () {
-  sync({ waitFor: Event("createCourse") });
+  sync({ waitFor: Event("gettingToEnrollForHide")});
   sync({ request: Event("enrollTeacher"), block: Event("logout") });
 });
