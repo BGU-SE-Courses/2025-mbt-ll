@@ -20,8 +20,8 @@ bthread('Reply', function () {
   sync({ request: Event("createTopic"), waitFor: Event("createForum"), block: Event("logout") });
 
   // Logout admin
-  sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginStudent") });
-  logout(session);
+  //sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginStudent") });
+  //logout(session);
 
   // Login as student
   sync({ request: Event("loginStudent"), waitFor: Event("logout"), block: Event("navigateToForum") });
@@ -30,8 +30,8 @@ bthread('Reply', function () {
   navigateToCourseFromHomePage(session);
 
   // Navigate to the forum
-  sync({ request: Event("navigateToForum"), waitFor: Event("navigateToCourse"), block: Event("navigateToTopic") });
-  navigateToForum(session);
+  //sync({ request: Event("navigateToForum"), waitFor: Event("navigateToCourse"), block: Event("navigateToTopic") });
+  //navigateToForum(session);
 
   // Navigate to the specific topic
   sync({ request: Event("navigateToTopic"), waitFor: Event("navigateToForum"), block: Event("commentOnForum") });
@@ -44,8 +44,8 @@ bthread('Reply', function () {
   sync({ request: Event("checkCommentExist"), waitFor: Event("commentOnForum"), block: Event("logout") });
 
   // Logout student
-  sync({ request: Event("logout"), waitFor: Event("checkCommentExist") });
-  logout(session);
+  //sync({ request: Event("logout"), waitFor: Event("checkCommentExist") });
+  //logout(session);
 
   // Emit the trigger event to wake up the Hide Bthread
   sync({ request: Event("replyCompletedTrigger") });
@@ -71,8 +71,8 @@ bthread('Hide', function () {
   sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logoutAdmin") });
 
   // Logout admin
-  sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginTeacher") });
-  logout(session);
+  //sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginTeacher") });
+  //logout(session);
 
   // Login as teacher
   sync({ request: Event("loginTeacher"), waitFor: Event("logout"), block: Event("navigateToForum") });
@@ -92,8 +92,8 @@ bthread('Hide', function () {
   sync({ request: Event("checkForumHiding"), waitFor: Event("hideForum") });
 
   // Logout teacher
-  sync({ request: Event("logout"), waitFor: Event("checkForumHiding") });
-  logout(session);
+  //sync({ request: Event("logout"), waitFor: Event("checkForumHiding") });
+  //logout(session);
 });
 
 bthread('CommentEnrollStudent', function () {

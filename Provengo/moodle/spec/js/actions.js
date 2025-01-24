@@ -19,10 +19,10 @@ function loginTeacher(session) {
   login(session, moodledata.Login.teacherUsername, moodledata.Login.password);
 }
 
-function logout(session) {
-  session.click(xpaths.Logout.userMenuToggle);
-  session.click(xpaths.Logout.logoutLink);
-}
+// function logout(session) {
+//   session.click(xpaths.Logout.userMenuToggle);
+//   session.click(xpaths.Logout.logoutLink);
+// }
 
 function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
@@ -101,9 +101,9 @@ function createTopic(session) {
   session.click(xpaths.CreateTopic.returnToForum);
 }
 
-function navigateToForum(session) {
-  session.click(xpaths.NavigateToForum.forumLink);
-}
+//function navigateToForum(session) {
+//  session.click(xpaths.NavigateToForum.forumLink);
+//}
 
 function commentOnForum(session) {
   session.click(xpaths.CommentForum.replyButton);
@@ -113,7 +113,7 @@ function commentOnForum(session) {
 }
 
 function navigateToTopic(session) {
-  session.click(xpaths.NavigateToTopic.forumLink);
+  session.click(xpaths.NavigateToTopic.topicLink);
 }
 
 function hideForum(session) {

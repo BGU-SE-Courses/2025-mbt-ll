@@ -19,7 +19,7 @@ const xpaths = {
     createButton: "//*[@id=\"id_saveanddisplay\"]"
   },
   NavigateToCourseFromHomePage: {
-    navigateToCourse: "/html/body/div[2]/div[3]/div/div[2]/div/section/div/div[2]/div/div[1]/div[1]/h3/a"
+    navigateToCourse: "//*[@id=\"frontpage-available-course-list\"]/div/div[1]/div[1]"
   },
   EnrollStudent: {
     navigateToParticipates: "/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a",
@@ -43,23 +43,27 @@ const xpaths = {
       submitButton: "//[@id=\"id_submitbutton\"]",
       returnToForum: "/html/body/div[5]/div[5]/div/header/div/div[1]/div[1]/nav/ol/li[2]/a"
     },
-    NavigateToForum: {
-      forumLink: "/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a"
-    },
+    //TODO: FIX LINK
+    //NavigateToForum: {
+    //  forumLink: "//div[@class=' aalink stretched-link']"
+    //},
     CommentForum: {
       replyButton: "/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div/div[2]/div[2]/div/a[2]",
       enterReplyTextArea: "/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[1]/span/textarea",
       postReplyButton: "/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[2]/button[1]/span[1]"
     },
+
+    //TODO: FIX LINK
     NavigateToTopic: {
-      forumLink: "/html/body/div[3]/div[4]/div/div[2]/div/section/div[2]/div[2]/div[3]/div/table/tbody/tr/th/div/div[1]/a"
+      topicLink: "//a[@class=\"w-100 h-100 d-block\"]"
     },
-    Logout: {
-      userMenuToggle: "//[@id=\"user-menu-toggle\"]",
-      logoutLink: "//*[@id=\"carousel-item-main\"]/a[10]"
-    },
+    //TODO: FIX Logout
+    // Logout: {
+    //   userMenuToggle: "//*[@id=\"user-menu-toggle\"]",
+    //   logoutLink: "//*[@id=\"carousel-item-main\"]/a[10]"
+    // },
     LogoutAfterReplying: {
-      userMenuToggle: "//[@id=\"user-menu-toggle\"]",
+      userMenuToggle: "//*[@id=\"user-menu-toggle\"]",
       logoutLink: "//*[@id=\"carousel-item-main\"]/a[9]"
     },
     CheckCommentExist: {
