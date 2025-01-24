@@ -3,7 +3,7 @@
 // Reply Bthread
 bthread('Reply', function () {
   let session = new SeleniumSession('reply');
-  session.start(URL, 'chrome');
+  session.start(URL);
 
   // Login as admin
   sync({ request: Event("loginAdmin") });
@@ -57,7 +57,7 @@ bthread('Hide', function () {
   sync({ waitFor: Event("replyCompletedTrigger") });
 
   let session = new SeleniumSession('hide');
-  session.start(URL, 'chrome');
+  session.start(URL);
 
   // Login as admin
   sync({ request: Event("loginAdmin"), block: Event("createCourse") });

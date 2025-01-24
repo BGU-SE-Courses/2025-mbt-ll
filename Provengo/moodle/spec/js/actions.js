@@ -50,9 +50,9 @@ function enrollStudent(session) {
 function selectDropdownValue(session, dropdownXpath, value) {
   try {
     const dropdown = session.findElementByXPath(dropdownXpath);
-    dropdown.click(); // Open the dropdown
+    dropdown.click();
     const option = dropdown.findElement(By.xpath(`.//option[text()='${value}']`));
-    option.click(); // Select the option
+    option.click();
     console.log(`Successfully selected "${value}" in dropdown.`);
   } catch (error) {
     //console.error(`Error selecting "${value}" in dropdown at "${dropdownXpath}":`, error);
