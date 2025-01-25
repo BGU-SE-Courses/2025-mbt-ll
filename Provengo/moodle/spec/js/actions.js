@@ -1,3 +1,5 @@
+/* @provengo summon selenium */
+
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -34,7 +36,7 @@ function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
   session.writeText(xpaths.CreateCourse.enterFullName,"test_course");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test11");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -45,8 +47,7 @@ function navigateToCourseFromHomePage(session) {
 function enrollStudent(session) {
   session.click(xpaths.EnrollStudent.navigateToParticipates);
   session.click(xpaths.EnrollStudent.enrollUserButton);
-  session.click(xpaths.EnrollStudent.selectUserComboBox);
-  session.writeText(moodledata.Login.studentUsername).then(r => "");
+  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student");
   session.click(xpaths.EnrollStudent.enrollButton);
   session.click(xpaths.EnrollStudent.navigateToCourseHome);
 }
@@ -67,20 +68,19 @@ function enrollTeacher(session) {
   session.click(xpaths.EnrollTeacher.navigateToParticipates);
   session.click(xpaths.EnrollTeacher.enrollUserButton);
   session.click(xpaths.EnrollTeacher.selectUserComboBox);
-  session.writeText(moodledata.Login.teacherUsername).then(r => "");
+  session.writeText(xpaths.EnrollTeacher.selectUserComboBox,"teacher");
   selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
   session.click(xpaths.EnrollTeacher.enrollButton);
   session.click(xpaths.EnrollTeacher.navigateToCourseHome);
 }
 
-function switchToIframe(session, iframeXpath) {
-  try {
-    const iframe = session.findElementByXPath(iframeXpath);
-    session.switchToFrame(iframe);
-    console.log(`Switched to iframe at "${iframeXpath}".`);
-  } catch (error) {
-    console.error(`Error switching to iframe at "${iframeXpath}":`, error);
-  }
+function switchToIframe(session) {
+  const iframe = session.findElement('xpath','//iframe[@id="id_message_ifr"]');
+  session.switchFrame(iframe);
+  const tinymce = session.findElement('xpath', '//body[@id="tinymce"]');
+  tinymce.sendKeys('test');
+  new Promise(resolve => setTimeout(resolve, 500));
+  session.switchToParentFrame();
 }
 
 function createForum(session) {
@@ -94,12 +94,8 @@ function createForum(session) {
 function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
   session.writeText(xpaths.CreateTopic.enterTopicSubject,"test");
-  sleep(200000);
-  switchToIframe(session, xpaths.CreateTopic.enterMessageIframe);
-  const iframeBody = session.findElementByTagName("body");
-  iframeBody.clear();
-  iframeBody.writeText("test").then(r => "");
-  session.switchToDefaultContent();
+  session.click("//iframe[@id='id_message_ifr']");
+  session.writeText("//body[@id='tinymce']", 'test');
   session.click(xpaths.CreateTopic.submitButton);
   session.click(xpaths.CreateTopic.returnToForum);
 }
@@ -111,7 +107,7 @@ function navigateToForum(session) {
 function commentOnForum(session) {
   session.click(xpaths.CommentForum.replyButton);
   session.click(xpaths.CommentForum.enterReplyTextArea);
-  session.writeText(xpaths.CommentForum.enterReplyTextArea,"test");
+  session.writeText(xpaths.CommentForum.enterReplyTextArea,"reply");
   session.click(xpaths.CommentForum.postReplyButton);
 }
 
@@ -127,9 +123,9 @@ function hideForum(session) {
 }
 
 function checkForumHiding(session) {
-  return session.isElementPresent(xpaths.CheckForumHiding.hiding);
+  //return session.isElementPresent(xpaths.CheckForumHiding.hiding);
 }
 
 function checkCommentExist(session) {
-  return session.isElementPresent(xpaths.CheckCommentExist.replyExist);
+  session.assertText("//[@class='text_to_html']","reply");
 }

@@ -109,16 +109,23 @@ bthread('Hide', function () {
 });
 
 bthread('CommentEnrollStudent', function () {
+  let session = new SeleniumSession('reply');
+  new Promise(resolve => setTimeout(resolve, 500));
   sync({ waitFor: Event("gettingToEnrollForComment")});
+  enrollStudent(session);
   sync({ request: Event("enrollStudent"), block: Event("createTopic") });
 });
 
 bthread('HideEnrollStudent', function () {
+  let session = new SeleniumSession('hide');
   sync({ waitFor: Event("gettingToEnrollForHide")});
   sync({ request: Event("enrollStudent"), block: Event("logout") });
+  enrollStudent(session);
 });
 
 bthread('HideEnrollTeacher', function () {
+  let session = new SeleniumSession('hide');
   sync({ waitFor: Event("gettingToEnrollForHide")});
   sync({ request: Event("enrollTeacher"), block: Event("logout") });
+  enrollTeacher(session);
 });

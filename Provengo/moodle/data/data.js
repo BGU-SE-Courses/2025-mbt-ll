@@ -38,14 +38,14 @@ const xpaths = {
     //TODO stop here
    CreateTopic: {
       addNewTopic: "/html/body/div[5]/div[5]/div/div[3]/div/section/div[2]/div[1]/div/div[2]/a",
-      enterTopicSubject: "//[@id=\"id_subject\"]\n",
+      enterTopicSubject: "//*[@id=\"id_subject\"]",
       enterMessageIframe: "//[@id=\"id_message_ifr\"]",
       enterMessageBody: "tinymce",
       submitButton: "//[@id=\"id_submitbutton\"]",
       returnToForum: "/html/body/div[5]/div[5]/div/header/div/div[1]/div[1]/nav/ol/li[2]/a"
     },
     NavigateToForum: {
-     forumLink: "/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a"
+      forumLink: "/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a"
     },
     CommentForum: {
       replyButton: "/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div/div[2]/div[2]/div/a[2]",
