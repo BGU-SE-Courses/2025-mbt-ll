@@ -45,17 +45,3 @@ We used two different testing methods:
 2. [Provengo](https://provengo.tech/), a story-based testing framework.
 
 Each of the testing methods is elaborated in its own directory.
-
-//TODO : Complete this.
-## Detected Bugs
-We detected the following bugs:
-
-1. Bug 1: 
-   1. General description: ...
-   2. Steps to reproduce: ...
-   3. Expected result: ...
-   4. Actual result: ...
-   5. Link to the bug report: (you are encouraged to report the bug to the developers of the software)
-2. Bug 2: ...
-
-$$*TODO* if you did not detect the bug, you should delete this section$$  

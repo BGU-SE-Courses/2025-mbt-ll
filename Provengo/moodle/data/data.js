@@ -13,7 +13,7 @@ const xpaths = {
   },
   CreateCourse: {
     navigateToMyCourses: "/html/body/div[2]/nav/div/div[1]/nav/ul/li[3]/a",
-    navigateToCreateCourse: "button.btn.btn-primary[type='submit']",
+    navigateToCreateCourse: "/html/body/div[2]/div[3]/div/div[2]/div/section/div/aside/section/div/div/div[1]/div/div/div/div[2]/form/button",
     enterFullName: "//*[@id=\"id_fullname\"]",
     enterShortName: "//*[@id=\"id_shortname\"]",
     createButton: "//*[@id=\"id_saveanddisplay\"]"
@@ -35,36 +35,34 @@ const xpaths = {
     enterForumName: "//*[@id=\"id_name\"]",
     createForumButton: "//*[@id=\"id_submitbutton\"]"
   },
+    //TODO stop here
    CreateTopic: {
       addNewTopic: "/html/body/div[5]/div[5]/div/div[3]/div/section/div[2]/div[1]/div/div[2]/a",
-      enterTopicSubject: "//[@id=\"id_subject\"]",
+      enterTopicSubject: "//[@id=\"id_subject\"]\n",
       enterMessageIframe: "//[@id=\"id_message_ifr\"]",
       enterMessageBody: "tinymce",
       submitButton: "//[@id=\"id_submitbutton\"]",
       returnToForum: "/html/body/div[5]/div[5]/div/header/div/div[1]/div[1]/nav/ol/li[2]/a"
     },
-    //TODO: FIX LINK
-    //NavigateToForum: {
-    //  forumLink: "//div[@class=' aalink stretched-link']"
-    //},
+    NavigateToForum: {
+     forumLink: "/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a"
+    },
     CommentForum: {
       replyButton: "/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div/div[2]/div[2]/div/a[2]",
       enterReplyTextArea: "/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[1]/span/textarea",
       postReplyButton: "/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[2]/button[1]/span[1]"
     },
-
-    //TODO: FIX LINK
     NavigateToTopic: {
       topicLink: "//a[@class=\"w-100 h-100 d-block\"]"
     },
     //TODO: FIX Logout
-    // Logout: {
-    //   userMenuToggle: "//*[@id=\"user-menu-toggle\"]",
-    //   logoutLink: "//*[@id=\"carousel-item-main\"]/a[10]"
-    // },
+    Logout: {
+      userMenuToggle: "//*[@class=\"btn dropdown-toggle\"]\n",
+      logoutLink: "//*[@id=\"carousel-item-main\"]/a[10]"
+    },
     LogoutAfterReplying: {
-      userMenuToggle: "//*[@id=\"user-menu-toggle\"]",
-      logoutLink: "//*[@id=\"carousel-item-main\"]/a[9]"
+      userMenuToggle: "//*[@id=\"user-menu-toggle\"]\n",
+      logoutLink: "//*[@class=\"dropdown-item\"]\n"
     },
     CheckCommentExist: {
       replyExist: "//*[contains(text(),'reply')]"
@@ -88,23 +86,4 @@ const xpaths = {
     CheckForumHiding: {
      hiding: "//*[@id=\"section-0\"]"
     }
-}
-
-const moodledata = {
-  Login: {
-    adminUsername: "admin",
-    teacherUsername: "teacher",
-    studentUsername: "student",
-    password: "sandbox24"
-  },
-  Course: {
-    fullName: "test_course",
-    shortName: "test"
-  },
-  Forum: {
-    forumName: "test",
-    topicSubject: "test",
-    topicMessage: "test",
-    replyMessage: "reply"
-  }
 };

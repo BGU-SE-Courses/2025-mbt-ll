@@ -34,7 +34,7 @@ See the files for a detailed description.
 $$*TODO*: Make sure that the text inside the files is informative, self-explanatory, and properly written (meaningful variable names, no magic number, etc.). Specifically, write for each bthread a comment that explain what it does and make sure that the bthread's name reflects its purpose. See the file for an example.$$
 
 ## How we tested the system
-See the last two lessons of the [Provengo Course](https://provengo.github.io/Course/Online%20Course/0.9.5/index.html) for a detailed explanation of the following steps.
+We saw the last two lessons of the [Provengo Course](https://provengo.github.io/Course/Online%20Course/0.9.5/index.html) for getting a detailed explanation of the following steps.
 
 1. We implemented a domain-specific ranking function at the beginning of the [ensemble-code.js](moodle/meta-spec/ensemble-code.js) file and updated the `rankingFunction` to use our function. We added a documentation comment that explains our function.
 2. We sampled the state space of the system using the following command that created a [samples.json](moodle/products/run-source/samples.json) file:

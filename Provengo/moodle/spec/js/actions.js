@@ -1,36 +1,40 @@
-function login(session, username, password) {
-  session.click(xpaths.Login.navigateToLogin);
-  session.click(xpaths.Login.enterUsername);
-  session.writeText(username).then(r => "");
-  session.click(xpaths.Login.enterPassword);
-  session.writeText(password).then(r => "");
-  session.click(xpaths.Login.loginButton);
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function loginStudent(session) {
-  login(session,  moodledata.Login.studentUsername,  moodledata.Login.password);
+  session.click(xpaths.Login.navigateToLogin);
+  session.writeText(xpaths.Login.enterUsername,"student");
+  session.writeText(xpaths.Login.enterPassword,"sandbox24");
+  session.click(xpaths.Login.loginButton);
 }
 
 function loginAdmin(session) {
-  login(session, moodledata.Login.adminUsername,  moodledata.Login.password);
+  session.click(xpaths.Login.navigateToLogin);
+  session.writeText(xpaths.Login.enterUsername,"admin");
+  session.writeText(xpaths.Login.enterPassword,"sandbox24");
+  session.click(xpaths.Login.loginButton);
 }
 
 function loginTeacher(session) {
-  login(session, moodledata.Login.teacherUsername, moodledata.Login.password);
+  session.click(xpaths.Login.navigateToLogin);
+  session.writeText(xpaths.Login.enterUsername,"teacher");
+  session.writeText(xpaths.Login.enterPassword,"sandbox24");
+  session.click(xpaths.Login.loginButton);
 }
 
-// function logout(session) {
-//   session.click(xpaths.Logout.userMenuToggle);
-//   session.click(xpaths.Logout.logoutLink);
-// }
+function logout(session) {
+  session.click(xpaths.Logout.userMenuToggle);
+  sleep(1000);
+  session.click(xpaths.Logout.logoutLink);
+}
 
 function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
-  session.click(xpaths.CreateCourse.enterFullName);
-  session.writeText(moodledata.Course.fullName).then(r => "");
-  session.click(xpaths.CreateCourse.enterShortName);
-  session.writeText(moodledata.Course.shortName).then(r => "");
+  session.writeText(xpaths.CreateCourse.enterFullName,"test_course");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -83,32 +87,31 @@ function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
   session.click(xpaths.CreateForum.addAnActivity);
   session.click(xpaths.CreateForum.addForumButton);
-  session.click(xpaths.CreateForum.enterForumName);
-  session.writeText(moodledata.Forum.forumName).then(r => "");
+  session.writeText(xpaths.CreateForum.enterForumName,"test");
   session.click(xpaths.CreateForum.createForumButton);
 }
 
 function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
-  session.click(xpaths.CreateTopic.enterTopicSubject);
-  session.writeText(moodledata.Forum.topicSubject).then(r => "");
+  session.writeText(xpaths.CreateTopic.enterTopicSubject,"test");
+  sleep(200000);
   switchToIframe(session, xpaths.CreateTopic.enterMessageIframe);
   const iframeBody = session.findElementByTagName("body");
   iframeBody.clear();
-  iframeBody.writeText(moodledata.Forum.topicMessage).then(r => "");
+  iframeBody.writeText("test").then(r => "");
   session.switchToDefaultContent();
   session.click(xpaths.CreateTopic.submitButton);
   session.click(xpaths.CreateTopic.returnToForum);
 }
 
-//function navigateToForum(session) {
-//  session.click(xpaths.NavigateToForum.forumLink);
-//}
+function navigateToForum(session) {
+ session.click(xpaths.NavigateToForum.forumLink);
+}
 
 function commentOnForum(session) {
   session.click(xpaths.CommentForum.replyButton);
   session.click(xpaths.CommentForum.enterReplyTextArea);
-  session.writeText(moodledata.Forum.replyMessage).then(r => "");
+  session.writeText(xpaths.CommentForum.enterReplyTextArea,"test");
   session.click(xpaths.CommentForum.postReplyButton);
 }
 
