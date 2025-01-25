@@ -1,18 +1,18 @@
-
 package hellocucumber;
+
 import io.cucumber.java.en.*;
 
 
 public class StepDefinitions {
-    
-    private String webDriver = "webdriver.chrome.driver";
-    private String path = "...\\Selenium\\chromedriver.exe";
-    private MoodleActuator moodleActuator = new MoodleActuator();
+
+    private final MoodleActuator moodleActuator = new MoodleActuator();
 
     /**
-     * Initializes a user session for creating topics.
+     * Initializes a user session.
      */
     public void initSession() {
+        String path = "...\\Selenium\\chromedriver.exe";
+        String webDriver = "webdriver.chrome.driver";
         moodleActuator.initSession(webDriver, path);
     }
 
@@ -22,7 +22,7 @@ public class StepDefinitions {
 
     /**
      * Step: There is a course
-     *
+     * <p>
      * This step creates a course in Moodle by:
      * 1. Initializing a session.
      * 2. Logging in as an admin.
@@ -31,15 +31,15 @@ public class StepDefinitions {
     @Given("There is a course for comments scenario")
     public void createCourseForCommenting() {
         initSession();
-        moodleActuator.login("admin","sandbox24");
-        moodleActuator.createCourse("test5");
+        moodleActuator.login("admin", "sandbox24");
+        moodleActuator.createCourse("test9");
     }
 
     /**
      * Step: There is a forum
-     *
+     * <p>
      * This step creates a forum within the course by:
-     * 1. Enrolling a user in the course.
+     * 1. Enrolling a student in the course.
      * 2. Creating a forum within the course.
      */
     @And("There is a forum for comments scenario")
@@ -50,7 +50,7 @@ public class StepDefinitions {
 
     /**
      * Step: There is a topic
-     *
+     * <p>
      * This step creates a topic in the forum by:
      * 1. Creating a topic.
      */
@@ -61,7 +61,7 @@ public class StepDefinitions {
 
     /**
      * Step: "Student is on forum page"
-     *
+     * <p>
      * This step simulates a student navigating to the forum page by:
      * 1. Logging out as admin.
      * 2. Logging in as a student.
@@ -71,14 +71,14 @@ public class StepDefinitions {
     @And("Student is on forum page")
     public void studentInOnForumPage() {
         moodleActuator.logout();
-        moodleActuator.login("student","sandbox24");
+        moodleActuator.login("student", "sandbox24");
         moodleActuator.goToCourse();
         moodleActuator.goToForum();
     }
 
     /**
      * Step: "Student comment on forum"
-     *
+     * <p>
      * This step simulates a student posting a comment in a forum by:
      * 1. Navigating to a specific topic within the forum.
      * 2. Posting a comment in the forum.
@@ -91,8 +91,8 @@ public class StepDefinitions {
 
     /**
      * Step: "The comment should be shown"
-     *
-     * This step verifies that a student's comment is visible in the forum.
+     * <p>
+     * This step verifies that a student's comment is visible in the forum and logs out the user.
      */
     @Then("The comment should be shown")
     public void commentIsShownOnForum() {
@@ -106,21 +106,20 @@ public class StepDefinitions {
 
     /**
      * Step: There is a course
-     *
+     * <p>
      * This step creates a course in Moodle by:
-     * 1. Initializing a session.
      * 2. Logging in as an admin.
      * 3. Creating a new course.
      */
     @Given("There is a course for hiding forum scenario")
     public void createCourseForHiding() {
-        moodleActuator.login("admin","sandbox24");
-        moodleActuator.createCourse("test2");
+        moodleActuator.login("admin", "sandbox24");
+        moodleActuator.createCourse("test1");
     }
 
     /**
      * Step: There is a forum
-     *
+     * <p>
      * This step creates a forum within the course by:
      * 1. Enrolling a user in the course.
      * 2. Creating a forum within the course.
@@ -133,7 +132,7 @@ public class StepDefinitions {
 
     /**
      * Step: "Teacher is enrolled"
-     *
+     * <p>
      * This step enrolls a teacher into the course.
      */
     @And("Teacher is enrolled")
@@ -143,7 +142,7 @@ public class StepDefinitions {
 
     /**
      * Step: "Teacher is on forum page"
-     *
+     * <p>
      * This step simulates a teacher navigating to the forum page by:
      * 1. Logging out as admin.
      * 2. Logging in as a teacher.
@@ -152,13 +151,13 @@ public class StepDefinitions {
     @And("Teacher is on forum page")
     public void teacherInOnForumPage() {
         moodleActuator.logout();
-        moodleActuator.login("teacher","sandbox24");
+        moodleActuator.login("teacher", "sandbox24");
         moodleActuator.goToCourse();
     }
 
     /**
      * Step: "Teacher hides forum"
-     *
+     * <p>
      * This step simulates a teacher hiding a forum by:
      * 1. Accessing the forum page.
      * 2. Executing the hide forum action.
@@ -173,7 +172,7 @@ public class StepDefinitions {
 
     /**
      * Step: "The forum is hidden"
-     *
+     * <p>
      * This step verifies that the forum is hidden from students by:
      * 1. Logging in as a student.
      * 2. Navigating to the course.
@@ -181,7 +180,7 @@ public class StepDefinitions {
      */
     @Then("The forum is hidden")
     public void hiddenForum() {
-        moodleActuator.login("student","sandbox24");
+        moodleActuator.login("student", "sandbox24");
         moodleActuator.goToCourse();
         moodleActuator.checkForumHiding();
     }

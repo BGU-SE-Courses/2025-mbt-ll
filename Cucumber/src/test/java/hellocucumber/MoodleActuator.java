@@ -20,8 +20,8 @@ public class MoodleActuator {
         driver.get("https://sandbox.moodledemo.net/");
     }
 
-    // Logs in as the admin user.
-    public void login(String userName,String password) {
+    // Logs into the site with given user details.
+    public void login(String userName, String password) {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[2]/div[5]/div/span/a")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).clear();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"username\"]"))).sendKeys(userName);
@@ -40,7 +40,7 @@ public class MoodleActuator {
         }
     }
 
-    // Creates a course with the full name "test_course" and the short name "test".
+    // Creates a course named "test_course" and with given short name.
     public void createCourse(String shortName) {
         driver.findElement(By.xpath("/html/body/div[2]/nav/div/div[1]/nav/ul/li[3]/a")).click();
         driver.findElement(By.cssSelector("button.btn.btn-primary[type='submit']")).click();
@@ -54,28 +54,33 @@ public class MoodleActuator {
         }
     }
 
-    // Navigates to the course "test" from the homepage.
+    // Navigates to the first course on the homepage.
     public void goToCourse() {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[2]/div[3]/div/div[2]/div/section/div/div[2]/div/div[1]/div[1]/h3/a")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[3]/div/div[2]/div/section/div/div[2]/div/div[1]/div[1]/h3/a"))).click();
     }
 
-    // Enrolls the user "Sam Student" in the course "test" with student permissions.
+    // Enrolls the user "Sam Student" in the course as a student.
     public void enrollStudent() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a"))).click();
         driver.findElement(By.xpath("//input[@type='submit' and @class='btn btn-primary']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@role='combobox' and @data-fieldtype='autocomplete']"))).sendKeys("Sam Student");
         try {
-            Thread.sleep(500);
+            Thread.sleep(750);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         driver.findElement(By.xpath("//input[@role='combobox' and @data-fieldtype='autocomplete']")).sendKeys(Keys.ENTER);
+        try {
+            Thread.sleep(750);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         driver.findElement(By.xpath("//button[@type='button' and @class='btn btn-primary' and @data-action='save']")).click();
         driver.findElement(By.xpath("//li[@data-key='coursehome']//a")).click();
     }
 
-    // Creates a forum with the name "test".
+    // Creates a forum with the given name.
     public void createForum(String forumName) {
         driver.findElement(By.xpath("//input[@type='checkbox' and @name='setmode']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[4]/div[5]/div/div[3]/div/section/div/div/div/ul/li[1]/div[1]/div[2]/div[2]/div/button/div/span"))).click();
@@ -128,30 +133,30 @@ public class MoodleActuator {
         }
     }
 
-    // Navigates to the forum "test" from the course "test".
+    // Navigates to the second forum in the course page.
     public void goToForum() {
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[3]/div/section/div/div/div/ul/li[1]/div/div[2]/ul/li[2]/div/div[2]/div[2]/div/div/a")).click();
     }
 
-    // Navigates to the topic "test" from the forum "test".
+    // Navigates to the first topic in the forum page.
     public void goToTopic() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[3]/div[4]/div/div[2]/div/section/div[2]/div[2]/div[3]/div/table/tbody/tr/th/div/div[1]/a"))).click();
     }
 
-    // Posts a comment "reply" to the topic "test".
+    // Posts a comment "reply" in the forum topic.
     public void commentForum() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div/div[2]/div[2]/div/a[2]"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[1]/span/textarea"))).sendKeys("reply");
         driver.findElement(By.xpath("/html/body/div[2]/div[4]/div/div[2]/div/section/div[2]/div/article/div[1]/div/div[2]/div/form/div[2]/button[1]/span[1]")).click();
     }
 
-    // Verifies that the comment "reply" exists in the topic "test".
+    // Verifies that the comment "reply" exists in the topic.
     public void checkCommentExists() {
         boolean replyExists = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'reply')]"))) != null;
         assertTrue(replyExists);
     }
 
-    // Enrolls the user "Terri Teacher" in the course "test" with teacher permissions.
+    // Enrolls the user "Terri Teacher" to the course as a teacher.
     public void enrollTeacher() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a"))).click();
         driver.findElement(By.xpath("//input[@type='submit' and @class='btn btn-primary']")).click();
@@ -167,7 +172,7 @@ public class MoodleActuator {
         driver.findElement(By.xpath("//li[@data-key='coursehome']//a")).click();
     }
 
-    // Hides the forum "test" from "Sam Student".
+    // Hides a forum from students.
     public void hideForum() {
         driver.findElement(By.xpath("//li[@data-key='modedit']//a")).click();
         driver.findElement(By.xpath("//*[@id=\"collapseElement-8\"]")).click();
@@ -179,7 +184,7 @@ public class MoodleActuator {
         driver.findElement(By.xpath("//*[@id=\"id_submitbutton\"]")).click();
     }
 
-    // Verifies that the forum "test" is hidden from "Sam Student".
+    // Verifies that the forum is hidden from the student.
     public void checkForumHiding() {
         boolean hiding = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"section-0\"]"))) != null;
         assertTrue(hiding);
