@@ -83,6 +83,7 @@ function switchToIframe(session) {
   session.switchToParentFrame();
 }
 
+//TODO add scroll
 function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
   session.click(xpaths.CreateForum.addAnActivity);
