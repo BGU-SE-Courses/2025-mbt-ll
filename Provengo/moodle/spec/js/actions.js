@@ -22,21 +22,27 @@ function scroll(session, direction) {
 function loginStudent(session) {
   session.click(xpaths.Login.navigateToLogin);
   session.writeText(xpaths.Login.enterUsername,"student");
+  Ctrl.doSleep(1000);
   session.writeText(xpaths.Login.enterPassword,"sandbox24");
+  Ctrl.doSleep(1000);
   session.click(xpaths.Login.loginButton);
 }
 
 function loginAdmin(session) {
   session.click(xpaths.Login.navigateToLogin);
   session.writeText(xpaths.Login.enterUsername,"admin");
+  Ctrl.doSleep(1000);
   session.writeText(xpaths.Login.enterPassword,"sandbox24");
+  Ctrl.doSleep(1000);
   session.click(xpaths.Login.loginButton);
 }
 
 function loginTeacher(session) {
   session.click(xpaths.Login.navigateToLogin);
   session.writeText(xpaths.Login.enterUsername,"teacher");
+  Ctrl.doSleep(1000);
   session.writeText(xpaths.Login.enterPassword,"sandbox24");
+  Ctrl.doSleep(1000);
   session.click(xpaths.Login.loginButton);
 }
 
@@ -49,9 +55,8 @@ function logout(session) {
 function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
-  session.writeText(xpaths.CreateCourse.enterFullName,"test_course");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test9" +
-      "");
+  session.writeText(xpaths.CreateCourse.enterFullName,"test_");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test96");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -63,6 +68,9 @@ function enrollStudent(session) {
   session.click(xpaths.EnrollStudent.navigateToParticipates);
   session.click(xpaths.EnrollStudent.enrollUserButton);
   session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student");
+  Ctrl.doSleep(1000);
+  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"\n");
+  Ctrl.doSleep(1000);
   session.click(xpaths.EnrollStudent.enrollButton);
   session.click(xpaths.EnrollStudent.navigateToCourseHome);
 }
@@ -84,7 +92,9 @@ function enrollTeacher(session) {
   session.click(xpaths.EnrollTeacher.enrollUserButton);
   session.click(xpaths.EnrollTeacher.selectUserComboBox);
   session.writeText(xpaths.EnrollTeacher.selectUserComboBox,"teacher");
+  Ctrl.doSleep(1000);
   selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
+  Ctrl.doSleep(1000);
   session.click(xpaths.EnrollTeacher.enrollButton);
   session.click(xpaths.EnrollTeacher.navigateToCourseHome);
 }
@@ -92,9 +102,7 @@ function enrollTeacher(session) {
 function switchToIframe(session) {
   session.switchFrame(0);
   session.writeText("//body[@id='tinymce']", "test");
-  return new Promise(resolve => setTimeout(resolve, 500)).then(() => {
-    session.switchToParentFrame();
-  });
+  Ctrl.doSleep(1000);
 }
 
 
@@ -104,7 +112,7 @@ function createForum(session) {
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
   scrolling.down;
-  Ctrl.doSleep(100000000);
+  Ctrl.doSleep(1000);
   session.click(xpaths.CreateForum.createForumButton);
 }
 
