@@ -3,7 +3,7 @@
 
 function loginStudent(session) {
   session.click(xpaths.Login.navigateToLogin);
-  session.writeText(xpaths.Login.enterUsername,"student");
+  session.writeText(xpaths.Login.enterUsername,"student",true);
   Ctrl.doSleep(1000);
   session.writeText(xpaths.Login.enterPassword,"sandbox24");
   Ctrl.doSleep(1000);
@@ -12,7 +12,7 @@ function loginStudent(session) {
 
 function loginAdmin(session) {
   session.click(xpaths.Login.navigateToLogin);
-  session.writeText(xpaths.Login.enterUsername,"admin");
+  session.writeText(xpaths.Login.enterUsername,"admin",true);
   Ctrl.doSleep(1000);
   session.writeText(xpaths.Login.enterPassword,"sandbox24");
   Ctrl.doSleep(1000);
@@ -21,7 +21,7 @@ function loginAdmin(session) {
 
 function loginTeacher(session) {
   session.click(xpaths.Login.navigateToLogin);
-  session.writeText(xpaths.Login.enterUsername,"teacher");
+  session.writeText(xpaths.Login.enterUsername,"teacher",true);
   Ctrl.doSleep(1000);
   session.writeText(xpaths.Login.enterPassword,"sandbox24");
   Ctrl.doSleep(1000);
@@ -37,8 +37,8 @@ function logout(session) {
 function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
-  session.writeText(xpaths.CreateCourse.enterFullName,"IHateThisCourse");
-  session.writeText(xpaths.CreateCourse.enterShortName,"course127");
+  session.writeText(xpaths.CreateCourse.enterFullName,"test_");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test5");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -81,11 +81,13 @@ function enrollTeacher(session) {
 }
 
 function switchToIframe(session) {
-  session.waitForVisibility(xpaths.CreateTopic.enterMessageIframe, 5000);
-  session.switchFrame(0); //TODO : CHECK THIS
+  session.waitForVisibility("//iframe[@id='id_message_ifr']", 5000);
+  session.switchFrame("//iframe[@id='id_message_ifr']");
   session.waitForVisibility("//body[@id='tinymce']", 5000);
+  session.executeScript("arguments[0].focus();", session.findElement("//body[@id='tinymce']"));
   session.writeText("//body[@id='tinymce']", "test");
   Ctrl.doSleep(1000);
+  session.switchToDefaultContent();
 }
 
 function createForum(session) {
@@ -94,14 +96,16 @@ function createForum(session) {
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
   scrolling.down;
-  Ctrl.doSleep(2000); //TODO : THINK WHAT 2 DO WITH POSITION ERROR
+  Ctrl.doSleep(5000);
   session.click(xpaths.CreateForum.createForumButton);
 }
 
 function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
-  session.writeText(xpaths.CreateTopic.enterTopicSubject,"test");
-  switchToIframe(session);
+  session.writeText(xpaths.CreateTopic.enterTopicSubject,"test \t test");
+  Ctrl.doSleep(1000);
+  scrolling.down;
+  Ctrl.doSleep(1000);
   session.click(xpaths.CreateTopic.submitButton);
   session.click(xpaths.CreateTopic.returnToForum);
 }
@@ -115,6 +119,7 @@ function commentOnForum(session) {
   session.click(xpaths.CommentForum.enterReplyTextArea);
   session.writeText(xpaths.CommentForum.enterReplyTextArea,"reply");
   session.click(xpaths.CommentForum.postReplyButton);
+  Ctrl.doSleep(1000);
 }
 
 function navigateToTopic(session) {
@@ -133,5 +138,5 @@ function checkForumHiding(session) {
 }
 
 function checkCommentExist(session) {
-  session.assertText("//[@class='text_to_html']","reply");
+  session.assertText("//div[@class='text_to_html']", "reply");
 }

@@ -19,7 +19,7 @@ const xpaths = {
     createButton: "//*[@id=\"id_saveanddisplay\"]"
   },
   NavigateToCourseFromHomePage: {
-    navigateToCourse: "//*[@id=\"frontpage-available-course-list\"]/div/div[1]/div[1]"
+    navigateToCourse: "//*[@id=\"frontpage-available-course-list\"]/div/div[1]/div[1]/h3/a"
   },
   EnrollStudent: {
     navigateToParticipates: "/html/body/div[2]/div[4]/div/div[2]/nav/ul/li[3]/a",
@@ -33,7 +33,7 @@ const xpaths = {
     addAnActivity: "/html/body/div[4]/div[5]/div/div[3]/div/section/div/div/div/ul/li[1]/div[1]/div[2]/div[2]/div/button/div/span",
     addForumButton: "//a[@title='Add a new Forum']",
     enterForumName: "//*[@id=\"id_name\"]",
-    createForumButton: "//*[@id=\"id_submitbutton\"]"
+    createForumButton: "//input[@id='id_submitbutton']"
   },
     //TODO stop here
    CreateTopic: {
@@ -41,7 +41,7 @@ const xpaths = {
       enterTopicSubject: "//*[@id=\"id_subject\"]",
       enterMessageIframe: "//*[@id=\"id_message_ifr\"]",
       enterMessageBody: "tinymce",
-      submitButton: "//[@id=\"id_submitbutton\"]",
+      submitButton: "//*[@id=\"id_submitbutton\"]",
       returnToForum: "/html/body/div[5]/div[5]/div/header/div/div[1]/div[1]/nav/ol/li[2]/a"
     },
     NavigateToForum: {
