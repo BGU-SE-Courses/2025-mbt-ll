@@ -39,7 +39,7 @@ const xpaths = {
    CreateTopic: {
       addNewTopic: "/html/body/div[5]/div[5]/div/div[3]/div/section/div[2]/div[1]/div/div[2]/a",
       enterTopicSubject: "//*[@id=\"id_subject\"]",
-      enterMessageIframe: "//[@id=\"id_message_ifr\"]",
+      enterMessageIframe: "//*[@id=\"id_message_ifr\"]",
       enterMessageBody: "tinymce",
       submitButton: "//[@id=\"id_submitbutton\"]",
       returnToForum: "/html/body/div[5]/div[5]/div/header/div/div[1]/div[1]/nav/ol/li[2]/a"

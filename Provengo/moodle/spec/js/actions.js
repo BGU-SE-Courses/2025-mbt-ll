@@ -1,24 +1,6 @@
 /* @provengo summon selenium */
 /* @provengo summon ctrl */
 
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// Scroll function
-function scroll(session, direction) {
-    if (direction === "down") {
-      const element = session.findElementByXPath("//xpath_to_scroll_target");
-      if (element) {
-        element.scrollIntoView();
-        session.executeScript("arguments[0].scrollIntoView(true);", element);
-      }
-    }else if (direction === "up") {
-        session.executeScript("window.scrollTo(0, 0);");
-      }
-}
-
 function loginStudent(session) {
   session.click(xpaths.Login.navigateToLogin);
   session.writeText(xpaths.Login.enterUsername,"student");
@@ -48,15 +30,15 @@ function loginTeacher(session) {
 
 function logout(session) {
   session.click(xpaths.Logout.userMenuToggle);
-  sleep(1000);
+  Ctrl.doSleep(500);
   session.click(xpaths.Logout.logoutLink);
 }
 
 function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
-  session.writeText(xpaths.CreateCourse.enterFullName,"test_");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test96");
+  session.writeText(xpaths.CreateCourse.enterFullName,"IHateThisCourse");
+  session.writeText(xpaths.CreateCourse.enterShortName,"course127");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -100,11 +82,12 @@ function enrollTeacher(session) {
 }
 
 function switchToIframe(session) {
+  session.waitForVisibility(xpaths.CreateTopic.enterMessageIframe, 5000);
   session.switchFrame(0);
+  session.waitForVisibility("//body[@id='tinymce']", 5000);
   session.writeText("//body[@id='tinymce']", "test");
   Ctrl.doSleep(1000);
 }
-
 
 function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
@@ -112,7 +95,7 @@ function createForum(session) {
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
   scrolling.down;
-  Ctrl.doSleep(1000);
+  Ctrl.doSleep(2000);
   session.click(xpaths.CreateForum.createForumButton);
 }
 
