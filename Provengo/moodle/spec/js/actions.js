@@ -44,7 +44,7 @@ function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
   session.writeText(xpaths.CreateCourse.enterFullName,"test_");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test12");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test6");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -55,10 +55,10 @@ function navigateToCourseFromHomePage(session) {
 function enrollStudent(session) {
   session.click(xpaths.EnrollStudent.navigateToParticipates);
   session.click(xpaths.EnrollStudent.enrollUserButton);
-  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student");
+  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student",true);
   Ctrl.doSleep(1000);
   session.writeText(xpaths.EnrollStudent.selectUserComboBox,"\n");
-  Ctrl.doSleep(1000);
+  Ctrl.doSleep(10000);
   session.click(xpaths.EnrollStudent.enrollButton);
   session.click(xpaths.EnrollStudent.navigateToCourseHome);
 }
@@ -78,10 +78,13 @@ function enrollTeacher(session) {
   session.click(xpaths.EnrollTeacher.navigateToParticipates);
   session.click(xpaths.EnrollTeacher.enrollUserButton);
   session.click(xpaths.EnrollTeacher.selectUserComboBox);
-  session.writeText(xpaths.EnrollTeacher.selectUserComboBox,"teacher");
+  session.writeText(xpaths.EnrollTeacher.selectUserComboBox,"teacher",true);
   Ctrl.doSleep(1000);
-  selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
+  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"\n");
   Ctrl.doSleep(1000);
+  session.selectByValue("//select[@id='id_roletoassign']", "3");
+  //selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
+  Ctrl.doSleep(10000);
   session.click(xpaths.EnrollTeacher.enrollButton);
   session.click(xpaths.EnrollTeacher.navigateToCourseHome);
 }
@@ -98,16 +101,18 @@ function switchToIframe(session) {
 
 function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
+  Ctrl.doSleep(1000);
   session.click(xpaths.CreateForum.addAnActivity);
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
   scrolling.down;
-  Ctrl.doSleep(2000);
+  Ctrl.doSleep(1000);
   session.click(xpaths.CreateForum.createForumButton);
 }
 
 function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
+  Ctrl.doSleep(5000);
   session.writeText(xpaths.CreateTopic.enterTopicSubject,"test \t test");
   Ctrl.doSleep(1000);
   scrolling.down;
@@ -134,8 +139,11 @@ function navigateToTopic(session) {
 
 function hideForum(session) {
   session.click(xpaths.HideForum.editForumButton);
+  Ctrl.doSleep(1000);
   session.click(xpaths.HideForum.forumVisibilitySection);
-  selectDropdownValue(session, xpaths.HideForum.visibilityDropdown, xpaths.HideForum.hideOnCoursePageOption);
+  session.selectByValue("//select[@id='id_visible']", "0");
+  scrolling.down;
+  Ctrl.doSleep(10000);
   session.click(xpaths.HideForum.saveChangesButton);
 }
 

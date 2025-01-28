@@ -35,7 +35,6 @@ const xpaths = {
     enterForumName: "//*[@id=\"id_name\"]",
     createForumButton: "//input[@id='id_submitbutton']"
   },
-    //TODO stop here
    CreateTopic: {
       addNewTopic: "/html/body/div[5]/div[5]/div/div[3]/div/section/div[2]/div[1]/div/div[2]/a",
       enterTopicSubject: "//*[@id=\"id_subject\"]",
@@ -78,10 +77,10 @@ const xpaths = {
     },
     HideForum: {
       editForumButton: "//li[@data-key='modedit']//a",
-      forumVisibilitySection: "//[@id='collapseElement-8']",
+      forumVisibilitySection: "//a[@id='collapseElement-8']",
       visibilityDropdown: "//[@id='id_visible']",
       hideOnCoursePageOption: "Hide on course page",
-      saveChangesButton: "//[@id='id_submitbutton']"
+      saveChangesButton: "//input[@id='id_submitbutton']"
     },
     CheckForumHiding: {
      hiding: "//*[@id=\"section-0\"]"
