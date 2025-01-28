@@ -65,7 +65,6 @@ function selectDropdownValue(session, dropdownXpath, value) {
     option.click();
     console.log(`Successfully selected "${value}" in dropdown.`);
   } catch (error) {
-    //console.error(`Error selecting "${value}" in dropdown at "${dropdownXpath}":`, error);
   }
 }
 
@@ -83,7 +82,7 @@ function enrollTeacher(session) {
 
 function switchToIframe(session) {
   session.waitForVisibility(xpaths.CreateTopic.enterMessageIframe, 5000);
-  session.switchFrame(0);
+  session.switchFrame(0); //TODO : CHECK THIS
   session.waitForVisibility("//body[@id='tinymce']", 5000);
   session.writeText("//body[@id='tinymce']", "test");
   Ctrl.doSleep(1000);
@@ -95,7 +94,7 @@ function createForum(session) {
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
   scrolling.down;
-  Ctrl.doSleep(2000);
+  Ctrl.doSleep(2000); //TODO : THINK WHAT 2 DO WITH POSITION ERROR
   session.click(xpaths.CreateForum.createForumButton);
 }
 
