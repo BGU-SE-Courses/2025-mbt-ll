@@ -87,3 +87,8 @@ const xpaths = {
      hiding: "//*[@id=\"section-0\"]"
     }
 };
+
+const scrolling = {
+    down: "window.scrollTo(0, document.body.scrollHeight);",
+    up: "window.scrollTo(0, 0);"
+};

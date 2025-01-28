@@ -1,8 +1,22 @@
 /* @provengo summon selenium */
+/* @provengo summon ctrl */
 
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Scroll function
+function scroll(session, direction) {
+    if (direction === "down") {
+      const element = session.findElementByXPath("//xpath_to_scroll_target");
+      if (element) {
+        element.scrollIntoView();
+        session.executeScript("arguments[0].scrollIntoView(true);", element);
+      }
+    }else if (direction === "up") {
+        session.executeScript("window.scrollTo(0, 0);");
+      }
 }
 
 function loginStudent(session) {
@@ -36,7 +50,8 @@ function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
   session.writeText(xpaths.CreateCourse.enterFullName,"test_course");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test11");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test9" +
+      "");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -75,28 +90,28 @@ function enrollTeacher(session) {
 }
 
 function switchToIframe(session) {
-  const iframe = session.findElement('xpath','//iframe[@id="id_message_ifr"]');
-  session.switchFrame(iframe);
-  const tinymce = session.findElement('xpath', '//body[@id="tinymce"]');
-  tinymce.sendKeys('test');
-  new Promise(resolve => setTimeout(resolve, 500));
-  session.switchToParentFrame();
+  session.switchFrame(0);
+  session.writeText("//body[@id='tinymce']", "test");
+  return new Promise(resolve => setTimeout(resolve, 500)).then(() => {
+    session.switchToParentFrame();
+  });
 }
 
-//TODO add scroll
+
 function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
   session.click(xpaths.CreateForum.addAnActivity);
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
+  scrolling.down;
+  Ctrl.doSleep(100000000);
   session.click(xpaths.CreateForum.createForumButton);
 }
 
 function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
   session.writeText(xpaths.CreateTopic.enterTopicSubject,"test");
-  session.click("//iframe[@id='id_message_ifr']");
-  session.writeText("//body[@id='tinymce']", 'test');
+  switchToIframe(session);
   session.click(xpaths.CreateTopic.submitButton);
   session.click(xpaths.CreateTopic.returnToForum);
 }

@@ -10,13 +10,16 @@ bthread('Reply', function () {
   loginAdmin(session);
 
   // Create a course
-  sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("createForum") });
+  sync({ request: Event("createCourse"), waitFor: Event("loginAdmin"), block: Event("enrollStudent") });
   createCourse(session)
 
-  sync({ request: Event("gettingToEnrollForComment")});
+  //sync({ request: Event("gettingToEnrollForComment")});
+
+  sync({ request: Event("enrollStudent"),waitFor: Event("createCourse") ,block: Event("createForum") });
+  enrollStudent(session);
 
   // Create a forum
-  sync({ request: Event("createForum"), waitFor: Event("createCourse"), block: Event("logout") });
+  sync({ request: Event("createForum"), waitFor: Event("enrollStudent"), block: Event("logout") });
   createForum(session)
 
   // Create a topic in the forum
@@ -108,13 +111,13 @@ bthread('Hide', function () {
   logout(session);
 });
 
-bthread('CommentEnrollStudent', function () {
-  let session = new SeleniumSession('reply');
-  new Promise(resolve => setTimeout(resolve, 500));
-  sync({ waitFor: Event("gettingToEnrollForComment")});
-  enrollStudent(session);
-  sync({ request: Event("enrollStudent"), block: Event("createTopic") });
-});
+// bthread('CommentEnrollStudent', function () {
+//   let session = new SeleniumSession('reply');
+//   new Promise(resolve => setTimeout(resolve, 500));
+//   sync({ waitFor: Event("gettingToEnrollForComment")});
+//   enrollStudent(session);
+//   sync({ request: Event("enrollStudent"), block: Event("createTopic") });
+// });
 
 bthread('HideEnrollStudent', function () {
   let session = new SeleniumSession('hide');
