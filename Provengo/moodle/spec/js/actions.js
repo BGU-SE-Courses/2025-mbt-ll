@@ -34,11 +34,17 @@ function logout(session) {
   session.click(xpaths.Logout.logoutLink);
 }
 
+function logoutAfterReply(session) {
+  session.click(xpaths.LogoutAfterReplying.userMenuToggle);
+  Ctrl.doSleep(500);
+  session.click(xpaths.LogoutAfterReplying.logoutLink);
+}
+
 function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
   session.writeText(xpaths.CreateCourse.enterFullName,"test_");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test5");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test12");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -96,7 +102,7 @@ function createForum(session) {
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
   scrolling.down;
-  Ctrl.doSleep(5000);
+  Ctrl.doSleep(2000);
   session.click(xpaths.CreateForum.createForumButton);
 }
 

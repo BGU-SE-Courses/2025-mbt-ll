@@ -55,7 +55,7 @@ bthread('Reply', function () {
 
   // Logout student
   sync({ request: Event("logout"), waitFor: Event("checkCommentExist") });
-  logout(session);
+  logoutAfterReply(session);
 
   // Emit the trigger event to wake up the Hide Bthread
   sync({ request: Event("replyCompletedTrigger") });
