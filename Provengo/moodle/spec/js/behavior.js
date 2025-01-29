@@ -63,75 +63,98 @@
 
 // Hide Bthread
 bthread('Hide', function () {
-  // Wait for the Reply Bthread to signal completion using the trigger event
-  //sync({ waitFor: Event("replyCompletedTrigger") });
-
   let session = new SeleniumSession('hide');
   session.start(URL);
 
   // Login as admin
-  sync({ request: Event("loginAdmin"), block: Event("createCourse") });
+  sync({ request: Event("loginAdmin") });
   loginAdmin(session);
 
   // Create a course
   sync({ request: Event("createCourse"), waitFor: Event("loginAdmin") });
-  createCourse(session,"test9");
+  createCourse(session, "test9");
 
-  sync({ request: Event("gettingToEnrollForHide")});
+  // Signal other bthreads (enrollment, forum) they can proceed
+  sync({ request: Event("gettingToEnrollForHide") });
 
-  // Create a forum
-  sync({ request: Event("createForum"),waitFor:Event("createCourse"), Block: Event("logout"), block:Event("enrollStudent"),block:Event("enrollTeacher")});
-  createForum(session)
-
-  // Logout admin
-  sync({ request: Event("logout"), waitFor: Event("createForum"), block: Event("loginTeacher"),waitFor:Event("enrollStudent"),waitFor:Event("enrollTeacher") });
+  // Once all 3 are done, do logout.
+  // We wait for createForum, enrollStudent, enrollTeacher
+  sync({
+    request: Event("logout"),
+    waitFor: [
+      Event("createForum"),
+      Event("enrollStudent"),
+      Event("enrollTeacher")
+    ]
+  });
   logout(session);
 
-  // Login as teacher
+  // After admin logs out, continue as teacher
   sync({ request: Event("loginTeacher"), waitFor: Event("logout"), block: Event("navigateToForum") });
-  loginTeacher(session)
+  loginTeacher(session);
 
   sync({ request: Event("navigateToCourse"), waitFor: Event("loginTeacher"), block: Event("navigateToForum") });
   navigateToCourseFromHomePage(session);
 
-  // Navigate to the forum
   sync({ request: Event("navigateToForum"), waitFor: Event("loginTeacher"), block: Event("hideForum") });
   navigateToForum(session);
 
-  // Block comments before hiding the forum
   sync({ request: Event("hideForum"), waitFor: Event("navigateToForum"), block: Event("checkForumHiding") });
   hideForum(session);
 
-  // Verify the forum is hidden
   sync({ request: Event("checkForumHiding"), waitFor: Event("hideForum") });
   checkForumHiding(session);
 
-  // Logout teacher
   sync({ request: Event("logout"), waitFor: Event("checkForumHiding") });
   logout(session);
 });
 
-bthread('CommentEnrollStudent', function () {
-  let session = new SeleniumSession('reply');
-  new Promise(resolve => setTimeout(resolve, 500));
-  sync({ waitFor: Event("gettingToEnrollForComment")});
-  sync({ request: Event("enrollStudent"), block: Event("createTopic") });
-  enrollStudent(session);
+// ----------------------
+// Create Forum Bthread
+// ----------------------
+bthread('HideCreateForum', function () {
+  let session = new SeleniumSession('hide');
+  // Wait for the course to exist, and also the "gettingToEnrollForHide" signal
+  sync({ waitFor: [Event("gettingToEnrollForHide"), Event("createCourse")] });
+
+  // We want "createForum" to be mutually exclusive with enrolls, so block them:
+  sync({
+    request: Event("createForum"),
+    waitFor: Event("createCourse"),
+    block: [Event("enrollStudent"), Event("enrollTeacher")]
+  });
+  createForum(session);
 });
 
+// ----------------------
+// Enroll Student Bthread
+// ----------------------
 bthread('HideEnrollStudent', function () {
   let session = new SeleniumSession('hide');
-  sync({ waitFor: Event("gettingToEnrollForHide")});
-  sync({ request: Event("enrollStudent"), block: Event("logout"), block: Event("enrollTeacher"),block: Event("createForum") });
+  sync({ waitFor: [Event("gettingToEnrollForHide"), Event("createCourse")] });
+
+  // "enrollStudent" is mutually exclusive with createForum and enrollTeacher
+  sync({
+    request: Event("enrollStudent"),
+    waitFor: Event("createCourse"),
+    block: [Event("createForum"), Event("enrollTeacher")]
+  });
   enrollStudent(session);
-  //sync({ request: Event("studentEnrolled")});
 });
 
+// ----------------------
+// Enroll Teacher Bthread
+// ----------------------
 bthread('HideEnrollTeacher', function () {
   let session = new SeleniumSession('hide');
-  sync({ waitFor: Event("gettingToEnrollForHide")});
-  sync({ request: Event("enrollTeacher"), block: Event("logout"), block: Event("enrollStudent"),block: Event("createForum") });
+  sync({ waitFor: [Event("gettingToEnrollForHide"), Event("createCourse")] });
+
+  // "enrollTeacher" is mutually exclusive with createForum and enrollStudent
+  sync({
+    request: Event("enrollTeacher"),
+    waitFor: Event("createCourse"),
+    block: [Event("createForum"), Event("enrollStudent")]
+  });
   enrollTeacher(session);
-  //sync({ request: Event("teacherEnrolled")});
 });
 
