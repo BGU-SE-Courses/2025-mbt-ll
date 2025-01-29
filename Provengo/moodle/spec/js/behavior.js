@@ -103,16 +103,25 @@ bthread('Hide', function () {
   navigateToForum(session);
 
   // Block comments before hiding the forum
-  sync({ request: Event("hideForum"), waitFor: Event("navigateToForum"), block: Event("checkForumHiding") });
+  sync({ request: Event("hideForum"), waitFor: Event("navigateToForum"), block: Event("logoutTeacher") });
   hideForum(session);
 
+  sync({ request: Event("logoutTeacher"), waitFor: Event("hideForum"), block: Event("loginStudent")});
+  logout(session);
+
+  sync({ request: Event("loginStudent"), waitFor: Event("logoutTeacher"), block: Event("navigateToCourse") });
+  loginStudent(session);
+
+  sync({ request: Event("navigateToCourse"), waitFor: Event("loginStudent"), block: Event("checkForumHiding") });
+  navigateToCourseFromHomePage(session);
+
   // Verify the forum is hidden
-  sync({ request: Event("checkForumHiding"), waitFor: Event("hideForum") });
+  sync({ request: Event("checkForumHiding"), waitFor: Event("navigateToCourse"), block: Event("logout") });
   checkForumHiding(session);
 
   // Logout teacher
   sync({ request: Event("logout"), waitFor: Event("checkForumHiding") });
-  logout(session);
+  logoutAfterReply(session);
 });
 
 // bthread('CommentEnrollStudent', function () {

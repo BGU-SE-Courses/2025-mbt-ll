@@ -44,7 +44,7 @@ function createCourse(session) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
   session.writeText(xpaths.CreateCourse.enterFullName,"test_");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test6");
+  session.writeText(xpaths.CreateCourse.enterShortName,"test9");
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -58,7 +58,7 @@ function enrollStudent(session) {
   session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student",true);
   Ctrl.doSleep(1000);
   session.writeText(xpaths.EnrollStudent.selectUserComboBox,"\n");
-  Ctrl.doSleep(10000);
+  Ctrl.doSleep(1000);
   session.click(xpaths.EnrollStudent.enrollButton);
   session.click(xpaths.EnrollStudent.navigateToCourseHome);
 }
@@ -84,20 +84,20 @@ function enrollTeacher(session) {
   Ctrl.doSleep(1000);
   session.selectByValue("//select[@id='id_roletoassign']", "3");
   //selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
-  Ctrl.doSleep(10000);
+  Ctrl.doSleep(1000);
   session.click(xpaths.EnrollTeacher.enrollButton);
   session.click(xpaths.EnrollTeacher.navigateToCourseHome);
 }
 
-function switchToIframe(session) {
-  session.waitForVisibility("//iframe[@id='id_message_ifr']", 5000);
-  session.switchFrame("//iframe[@id='id_message_ifr']");
-  session.waitForVisibility("//body[@id='tinymce']", 5000);
-  session.executeScript("arguments[0].focus();", session.findElement("//body[@id='tinymce']"));
-  session.writeText("//body[@id='tinymce']", "test");
-  Ctrl.doSleep(1000);
-  session.switchToDefaultContent();
-}
+//function switchToIframe(session) {
+//  session.waitForVisibility("//iframe[@id='id_message_ifr']", 5000);
+//  session.switchFrame("//iframe[@id='id_message_ifr']");
+//  session.waitForVisibility("//body[@id='tinymce']", 5000);
+//  session.executeScript("arguments[0].focus();", session.findElement("//body[@id='tinymce']"));
+//  session.writeText("//body[@id='tinymce']", "test");
+//  Ctrl.doSleep(1000);
+//  session.switchToDefaultContent();
+//}
 
 function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
@@ -112,9 +112,9 @@ function createForum(session) {
 
 function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
-  Ctrl.doSleep(5000);
-  session.writeText(xpaths.CreateTopic.enterTopicSubject,"test \t test");
   Ctrl.doSleep(1000);
+  session.writeText(xpaths.CreateTopic.enterTopicSubject,"test \t test");
+  Ctrl.doSleep(5000);
   scrolling.down;
   Ctrl.doSleep(1000);
   session.click(xpaths.CreateTopic.submitButton);
@@ -143,12 +143,17 @@ function hideForum(session) {
   session.click(xpaths.HideForum.forumVisibilitySection);
   session.selectByValue("//select[@id='id_visible']", "0");
   scrolling.down;
-  Ctrl.doSleep(10000);
+  Ctrl.doSleep(1000);
   session.click(xpaths.HideForum.saveChangesButton);
 }
 
 function checkForumHiding(session) {
-  //return session.isElementPresent(xpaths.CheckForumHiding.hiding);
+  try{
+    session.waitForVisibility(xpaths.CheckForumHiding.hiding,5000);
+  }
+  catch(error){
+    pvg.success();
+  }
 }
 
 function checkCommentExist(session) {

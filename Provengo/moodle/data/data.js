@@ -54,7 +54,6 @@ const xpaths = {
     NavigateToTopic: {
       topicLink: "//a[@class=\"w-100 h-100 d-block\"]"
     },
-    //TODO: FIX Logout
     Logout: {
       userMenuToggle: "//*[@class=\"btn dropdown-toggle\"]\n",
       logoutLink: "//*[@id=\"carousel-item-main\"]/a[10]"
