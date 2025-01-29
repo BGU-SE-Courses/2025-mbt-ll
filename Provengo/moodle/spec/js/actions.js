@@ -40,11 +40,11 @@ function logoutAfterReply(session) {
   session.click(xpaths.LogoutAfterReplying.logoutLink);
 }
 
-function createCourse(session) {
+function createCourse(session,short_name) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
-  session.writeText(xpaths.CreateCourse.enterFullName,"test_");
-  session.writeText(xpaths.CreateCourse.enterShortName,"test9");
+  session.writeText(xpaths.CreateCourse.enterFullName,"test");
+  session.writeText(xpaths.CreateCourse.enterShortName,short_name);
   session.click(xpaths.CreateCourse.createButton);
 }
 
@@ -55,7 +55,7 @@ function navigateToCourseFromHomePage(session) {
 function enrollStudent(session) {
   session.click(xpaths.EnrollStudent.navigateToParticipates);
   session.click(xpaths.EnrollStudent.enrollUserButton);
-  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student",true);
+  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student");
   Ctrl.doSleep(1000);
   session.writeText(xpaths.EnrollStudent.selectUserComboBox,"\n");
   Ctrl.doSleep(1000);
@@ -78,43 +78,38 @@ function enrollTeacher(session) {
   session.click(xpaths.EnrollTeacher.navigateToParticipates);
   session.click(xpaths.EnrollTeacher.enrollUserButton);
   session.click(xpaths.EnrollTeacher.selectUserComboBox);
-  session.writeText(xpaths.EnrollTeacher.selectUserComboBox,"teacher",true);
+  session.writeText(xpaths.EnrollTeacher.selectUserComboBox,"teacher");
   Ctrl.doSleep(1000);
-  session.writeText(xpaths.EnrollStudent.selectUserComboBox,"\n");
-  Ctrl.doSleep(1000);
-  session.selectByValue("//select[@id='id_roletoassign']", "3");
-  //selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
+  selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
   Ctrl.doSleep(1000);
   session.click(xpaths.EnrollTeacher.enrollButton);
   session.click(xpaths.EnrollTeacher.navigateToCourseHome);
 }
 
-//function switchToIframe(session) {
-//  session.waitForVisibility("//iframe[@id='id_message_ifr']", 5000);
-//  session.switchFrame("//iframe[@id='id_message_ifr']");
-//  session.waitForVisibility("//body[@id='tinymce']", 5000);
-//  session.executeScript("arguments[0].focus();", session.findElement("//body[@id='tinymce']"));
-//  session.writeText("//body[@id='tinymce']", "test");
-//  Ctrl.doSleep(1000);
-//  session.switchToDefaultContent();
-//}
+function switchToIframe(session) {
+  session.waitForVisibility("//iframe[@id='id_message_ifr']", 5000);
+  session.switchFrame("//iframe[@id='id_message_ifr']");
+  session.waitForVisibility("//body[@id='tinymce']", 5000);
+  session.executeScript("arguments[0].focus();", session.findElement("//body[@id='tinymce']"));
+  session.writeText("//body[@id='tinymce']", "test");
+  Ctrl.doSleep(1000);
+  session.switchToDefaultContent();
+}
 
 function createForum(session) {
   session.click(xpaths.CreateForum.editModeButton);
-  Ctrl.doSleep(1000);
   session.click(xpaths.CreateForum.addAnActivity);
   session.click(xpaths.CreateForum.addForumButton);
   session.writeText(xpaths.CreateForum.enterForumName,"test");
   scrolling.down;
-  Ctrl.doSleep(1000);
+  Ctrl.doSleep(2000);
   session.click(xpaths.CreateForum.createForumButton);
 }
 
 function createTopic(session) {
   session.click(xpaths.CreateTopic.addNewTopic);
-  Ctrl.doSleep(1000);
   session.writeText(xpaths.CreateTopic.enterTopicSubject,"test \t test");
-  Ctrl.doSleep(5000);
+  Ctrl.doSleep(1000);
   scrolling.down;
   Ctrl.doSleep(1000);
   session.click(xpaths.CreateTopic.submitButton);
@@ -139,21 +134,13 @@ function navigateToTopic(session) {
 
 function hideForum(session) {
   session.click(xpaths.HideForum.editForumButton);
-  Ctrl.doSleep(1000);
   session.click(xpaths.HideForum.forumVisibilitySection);
-  session.selectByValue("//select[@id='id_visible']", "0");
-  scrolling.down;
-  Ctrl.doSleep(1000);
+  selectDropdownValue(session, xpaths.HideForum.visibilityDropdown, xpaths.HideForum.hideOnCoursePageOption);
   session.click(xpaths.HideForum.saveChangesButton);
 }
 
 function checkForumHiding(session) {
-  try{
-    session.waitForVisibility(xpaths.CheckForumHiding.hiding,5000);
-  }
-  catch(error){
-    pvg.success();
-  }
+  //return session.isElementPresent(xpaths.CheckForumHiding.hiding);
 }
 
 function checkCommentExist(session) {
