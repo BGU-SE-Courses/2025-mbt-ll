@@ -42,6 +42,7 @@ function logoutAfterReply(session) {
 
 function createCourse(session,short_name) {
   session.click(xpaths.CreateCourse.navigateToMyCourses);
+  Ctrl.doSleep(10000);
   session.click(xpaths.CreateCourse.navigateToCreateCourse);
   session.writeText(xpaths.CreateCourse.enterFullName,"test");
   session.writeText(xpaths.CreateCourse.enterShortName,short_name);
@@ -49,6 +50,7 @@ function createCourse(session,short_name) {
 }
 
 function navigateToCourseFromHomePage(session) {
+  Ctrl.doSleep(10000);
   session.click(xpaths.NavigateToCourseFromHomePage.navigateToCourse);
 }
 
@@ -58,7 +60,7 @@ function enrollStudent(session) {
   session.writeText(xpaths.EnrollStudent.selectUserComboBox,"student");
   Ctrl.doSleep(1000);
   session.writeText(xpaths.EnrollStudent.selectUserComboBox,"\n");
-  Ctrl.doSleep(1000);
+  Ctrl.doSleep(10000);
   session.click(xpaths.EnrollStudent.enrollButton);
   session.click(xpaths.EnrollStudent.navigateToCourseHome);
 }
@@ -81,7 +83,7 @@ function enrollTeacher(session) {
   session.writeText(xpaths.EnrollTeacher.selectUserComboBox,"teacher");
   Ctrl.doSleep(1000);
   selectDropdownValue(session, xpaths.EnrollTeacher.enrollTeacherRoleDropdown, "Teacher");
-  Ctrl.doSleep(1000);
+  Ctrl.doSleep(10000);
   session.click(xpaths.EnrollTeacher.enrollButton);
   session.click(xpaths.EnrollTeacher.navigateToCourseHome);
 }
