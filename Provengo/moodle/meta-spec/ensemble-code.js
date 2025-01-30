@@ -4,9 +4,8 @@
  * List of events "of interest" that we want test suites to cover.
  */
 const GOALS = [
-    any(/Howdy/),
-    any(/Mars/),
-    Ctrl.markEvent("Classic!")
+    any("replyCompletedTrigger"),
+    any("finishedHidingForum"),
 ];
 
 const makeGoals = function(){
